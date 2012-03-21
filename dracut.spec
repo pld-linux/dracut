@@ -7,6 +7,8 @@ Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	8c966954cd973b5abbd7193368f1d5cc
 Source1:	pld.conf
+Patch0:		no-rh.patch
+Patch1:		create-target-dir-for-symlink.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	docbook-style-xsl
 BuildRequires:	libxslt-progs
@@ -91,6 +93,8 @@ configuration.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__make}

@@ -1,0 +1,16 @@
+--- dracut/dracut-functions.sh~	2012-02-24 15:38:08.000000000 +0100
++++ dracut/dracut-functions.sh	2012-03-21 15:03:12.440030577 +0100
+@@ -540,7 +540,12 @@
+             inst "$_realsrc"
+         fi
+     fi
+-    [[ -d ${_target%/*} ]] && _target=$(readlink -f ${_target%/*})/${_target##*/}
++    if [[ -d ${_target%/*} ]]; then
++        if ! [[ -d "$initdir/${_target%/*}" ]]; then
++            inst_dir "${_target%/*}"
++        fi
++        _target=$(readlink -f ${_target%/*})/${_target##*/}
++    fi
+     ln -sfn $(convert_abs_rel "${_target}" "${_realsrc}") "$initdir/$_target"
+ }
+ 
