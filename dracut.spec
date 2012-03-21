@@ -21,12 +21,13 @@ Requires:	findutils
 Requires:	grep
 Requires:	gzip
 Requires:	hardlink
-Requires:	module-init-tools >= 3.7-9
 Requires:	sed
 Requires:	systemd-units
 Requires:	udev
 Requires:	util-linux >= 2.20
+Requires:	virtual(module-tools)
 Suggests:	dash
+Conflicts:	kmod < 6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
