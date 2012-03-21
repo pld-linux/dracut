@@ -7,13 +7,8 @@ Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	8c966954cd973b5abbd7193368f1d5cc
 URL:		https://dracut.wiki.kernel.org/
-BuildRequires:	bash
-BuildRequires:	dash
-BuildRequires:	docbook-dtds
 BuildRequires:	docbook-style-xsl
-BuildRequires:	git
-BuildRequires:	libxslt
-#BuildRequires:	systemd-units
+BuildRequires:	libxslt-progs
 Requires:	bash
 Requires:	coreutils
 Requires:	cpio
@@ -24,8 +19,10 @@ Requires:	gzip
 Requires:	hardlink
 Requires:	module-init-tools >= 3.7-9
 Requires:	sed
+Requires:	systemd-units
 Requires:	udev
 Requires:	util-linux >= 2.20
+Suggests:	dash
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -99,12 +96,8 @@ configuration.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/boot/dracut
-install -d $RPM_BUILD_ROOT/var/lib/dracut/overlay
-install -d $RPM_BUILD_ROOT%{_localstatedir}/log
-install -d $RPM_BUILD_ROOT%{_sharedstatedir}/initramfs
-install -d $RPM_BUILD_ROOT/etc/logrotate.d
-install -d $RPM_BUILD_ROOT/sbin
+install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
+	$RPM_BUILD_ROOT/var/{log,lib/{dracut/overlay,initramfs}}
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT \
 	libdir=%{_prefix}/lib \
@@ -115,21 +108,15 @@ install -d $RPM_BUILD_ROOT/sbin
 
 echo %{name}-%{version}-%{release} > $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/10rpmversion/dracut-version
 
-# remove gentoo specific modules
-rm -fr $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/50gensplash
-
-touch $RPM_BUILD_ROOT%{_localstatedir}/log/dracut.log
-
-#install dracut.conf.d/fedora.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
-install dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
-
-#rm $RPM_BUILD_ROOT%{_bindir}/mkinitrd
-#rm $RPM_BUILD_ROOT%{_bindir}/lsinitrd
-
-install dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
+#install -p dracut.conf.d/fedora.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
+install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
+install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 
 # create compat symlink
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
+
+# remove gentoo specific modules
+%{__rm} $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/50gensplash
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -137,24 +124,21 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README HACKING TODO COPYING AUTHORS NEWS dracut.html dracut.png dracut.svg
-%attr(755,root,root) %{_bindir}/dracut
+%dir %{_sysconfdir}/dracut.conf.d
+%config(noreplace) %{_sysconfdir}/dracut.conf
+#%config %{_sysconfdir}/dracut.conf.d/01-dist.conf
+%config(noreplace) /etc/logrotate.d/dracut_log
 # compat symlink
-/sbin/dracut
-#%attr(755,root,root) %{_bindir}/mkinitrd
-#%attr(755,root,root) %{_bindir}/lsinitrd
+%attr(755,root,root) /sbin/dracut
+%attr(755,root,root) %{_bindir}/dracut
+%attr(755,root,root) %{_bindir}/mkinitrd
+%attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
 %dir %{dracutlibdir}/modules.d
 %{dracutlibdir}/dracut-functions.sh
 %{dracutlibdir}/dracut-functions
 %{dracutlibdir}/dracut-logger.sh
 %{dracutlibdir}/dracut-initramfs-restore
-%config(noreplace) %{_sysconfdir}/dracut.conf
-#%config %{_sysconfdir}/dracut.conf.d/01-dist.conf
-%dir %{_sysconfdir}/dracut.conf.d
-%{_mandir}/man8/dracut.8*
-%{_mandir}/man7/dracut.kernel.7*
-%{_mandir}/man7/dracut.cmdline.7*
-%{_mandir}/man5/dracut.conf.5*
 %{dracutlibdir}/modules.d/00bootchart
 %{dracutlibdir}/modules.d/00dash
 %{dracutlibdir}/modules.d/05busybox
@@ -195,11 +179,13 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/99fs-lib
 %{dracutlibdir}/modules.d/99img-lib
 %{dracutlibdir}/modules.d/99shutdown
-%config(noreplace) /etc/logrotate.d/dracut_log
-%ghost %config(missingok,noreplace) %{_localstatedir}/log/dracut.log
-%dir %{_sharedstatedir}/initramfs
+%dir /var/lib/initramfs
 %{systemdunitdir}/*.service
 %{systemdunitdir}/*/*.service
+%{_mandir}/man8/dracut.8*
+%{_mandir}/man7/dracut.kernel.7*
+%{_mandir}/man7/dracut.cmdline.7*
+%{_mandir}/man5/dracut.conf.5*
 
 %files network
 %defattr(644,root,root,755)
