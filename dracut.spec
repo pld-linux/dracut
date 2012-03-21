@@ -4,9 +4,9 @@ Version:	017
 Release:	0.1
 License:	GPL v2+
 Group:		Base
-URL:		https://dracut.wiki.kernel.org/
-Source0:	http://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
+Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	8c966954cd973b5abbd7193368f1d5cc
+URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	bash
 BuildRequires:	dash
 BuildRequires:	docbook-dtds
