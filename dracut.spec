@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	0.5
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -11,12 +11,13 @@ Patch0:		no-rh.patch
 Patch1:		create-target-dir-for-symlink.patch
 Patch2:		bash-sh.patch
 URL:		https://dracut.wiki.kernel.org/
+BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
 BuildRequires:	libxslt-progs
 Requires:	bash
 Requires:	coreutils
 Requires:	cpio
-Requires:	filesystem >= 2.1.0
+Requires:	filesystem
 Requires:	findutils
 Requires:	grep
 Requires:	gzip
@@ -26,7 +27,9 @@ Requires:	systemd-units
 Requires:	udev
 Requires:	util-linux >= 2.20
 Requires:	virtual(module-tools)
+Suggests:	bzip2
 Suggests:	dash
+Suggests:	xz
 Conflicts:	kmod < 6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -58,9 +61,6 @@ Requires:	hmaccalc
 Requires:	nss-softokn-freebl
 
 %description fips
-This package requires everything which is needed to build an all
-purpose initramfs with dracut, which does an integrity check.
-
 This package requires everything which is needed to build an all
 purpose initramfs with dracut, which does an integrity check.
 
