@@ -6,6 +6,7 @@ License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	8c966954cd973b5abbd7193368f1d5cc
+Source1:	pld.conf
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	docbook-style-xsl
 BuildRequires:	libxslt-progs
@@ -108,7 +109,7 @@ install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
 
 echo %{name}-%{version}-%{release} > $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/10rpmversion/dracut-version
 
-#install -p dracut.conf.d/fedora.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
+install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
 install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
 install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 
@@ -126,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README HACKING TODO COPYING AUTHORS NEWS dracut.html dracut.png dracut.svg
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
-#%config %{_sysconfdir}/dracut.conf.d/01-dist.conf
+%config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
 %config(noreplace) /etc/logrotate.d/dracut_log
 # compat symlink
 %attr(755,root,root) /sbin/dracut
