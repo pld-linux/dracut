@@ -116,7 +116,7 @@ install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
 
 # remove gentoo specific modules
-%{__rm} $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/50gensplash
+%{__rm} -r $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/50gensplash
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -171,7 +171,6 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/97masterkey
 %{dracutlibdir}/modules.d/98ecryptfs
 %{dracutlibdir}/modules.d/98integrity
-%{dracutlibdir}/modules.d/98pollcdrom
 %{dracutlibdir}/modules.d/98selinux
 %{dracutlibdir}/modules.d/98syslog
 %{dracutlibdir}/modules.d/98usrmount
