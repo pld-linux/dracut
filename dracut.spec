@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	0.3
+Release:	0.5
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -9,6 +9,7 @@ Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar
 Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		create-target-dir-for-symlink.patch
+Patch2:		bash-sh.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	docbook-style-xsl
 BuildRequires:	libxslt-progs
@@ -95,6 +96,7 @@ configuration.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make}
@@ -148,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/00dash
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
+%dir %{dracutlibdir}/modules.d/01bash
+%attr(755,root,root) %{dracutlibdir}/modules.d/01bash/*.sh
 %dir %{dracutlibdir}/modules.d/05busybox
 %attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
 %dir %{dracutlibdir}/modules.d/10i18n
