@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	0.1
+Release:	0.3
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -140,49 +140,103 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
 %dir %{dracutlibdir}/modules.d
-%{dracutlibdir}/dracut-functions.sh
-%{dracutlibdir}/dracut-functions
-%{dracutlibdir}/dracut-logger.sh
-%{dracutlibdir}/dracut-initramfs-restore
-%{dracutlibdir}/modules.d/00bootchart
-%{dracutlibdir}/modules.d/00dash
-%{dracutlibdir}/modules.d/05busybox
-%{dracutlibdir}/modules.d/10i18n
-%{dracutlibdir}/modules.d/10rpmversion
-%{dracutlibdir}/modules.d/30convertfs
-%{dracutlibdir}/modules.d/45url-lib
-%{dracutlibdir}/modules.d/50plymouth
-%{dracutlibdir}/modules.d/90btrfs
-%{dracutlibdir}/modules.d/90crypt
-%{dracutlibdir}/modules.d/90dm
-%{dracutlibdir}/modules.d/90dmraid
-%{dracutlibdir}/modules.d/90dmsquash-live
-%{dracutlibdir}/modules.d/90kernel-modules
-%{dracutlibdir}/modules.d/90lvm
-%{dracutlibdir}/modules.d/90mdraid
-%{dracutlibdir}/modules.d/90multipath
-%{dracutlibdir}/modules.d/91crypt-gpg
-%{dracutlibdir}/modules.d/95debug
-%{dracutlibdir}/modules.d/95resume
-%{dracutlibdir}/modules.d/95rootfs-block
-%{dracutlibdir}/modules.d/95dasd
-%{dracutlibdir}/modules.d/95dasd_mod
-%{dracutlibdir}/modules.d/95fstab-sys
-%{dracutlibdir}/modules.d/95zfcp
-%{dracutlibdir}/modules.d/95terminfo
-%{dracutlibdir}/modules.d/95udev-rules
-%{dracutlibdir}/modules.d/96securityfs
-%{dracutlibdir}/modules.d/97biosdevname
-%{dracutlibdir}/modules.d/97masterkey
-%{dracutlibdir}/modules.d/98ecryptfs
-%{dracutlibdir}/modules.d/98integrity
-%{dracutlibdir}/modules.d/98selinux
-%{dracutlibdir}/modules.d/98syslog
-%{dracutlibdir}/modules.d/98usrmount
-%{dracutlibdir}/modules.d/99base
-%{dracutlibdir}/modules.d/99fs-lib
-%{dracutlibdir}/modules.d/99img-lib
-%{dracutlibdir}/modules.d/99shutdown
+%attr(755,root,root) %{dracutlibdir}/dracut-functions.sh
+%attr(755,root,root) %{dracutlibdir}/dracut-functions
+%attr(755,root,root) %{dracutlibdir}/dracut-logger.sh
+%attr(755,root,root) %{dracutlibdir}/dracut-initramfs-restore
+%dir %{dracutlibdir}/modules.d/00bootchart
+%attr(755,root,root) %{dracutlibdir}/modules.d/00bootchart/*.sh
+%dir %{dracutlibdir}/modules.d/00dash
+%attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
+%dir %{dracutlibdir}/modules.d/05busybox
+%attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
+%dir %{dracutlibdir}/modules.d/10i18n
+%{dracutlibdir}/modules.d/10i18n/README
+%{dracutlibdir}/modules.d/10i18n/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/10i18n/*.sh
+%dir %{dracutlibdir}/modules.d/10rpmversion
+%{dracutlibdir}/modules.d/10rpmversion/dracut-version
+%attr(755,root,root) %{dracutlibdir}/modules.d/10rpmversion/*.sh
+%dir %{dracutlibdir}/modules.d/30convertfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
+%dir %{dracutlibdir}/modules.d/45url-lib
+%attr(755,root,root) %{dracutlibdir}/modules.d/45url-lib/*.sh
+%dir %{dracutlibdir}/modules.d/50plymouth
+%attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
+%dir %{dracutlibdir}/modules.d/90btrfs
+%{dracutlibdir}/modules.d/90btrfs/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh
+%dir %{dracutlibdir}/modules.d/90crypt
+%attr(755,root,root) %{dracutlibdir}/modules.d/90crypt/*.sh
+%dir %{dracutlibdir}/modules.d/90dm
+%{dracutlibdir}/modules.d/90dm/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90dm/*.sh
+%dir %{dracutlibdir}/modules.d/90dmraid
+%{dracutlibdir}/modules.d/90dmraid/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90dmraid/*.sh
+%dir %{dracutlibdir}/modules.d/90dmsquash-live
+%attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live/*.sh
+%dir %{dracutlibdir}/modules.d/90kernel-modules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-modules/*.sh
+%dir %{dracutlibdir}/modules.d/90lvm
+%{dracutlibdir}/modules.d/90lvm/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90lvm/*.sh
+%dir %{dracutlibdir}/modules.d/90mdraid
+%{dracutlibdir}/modules.d/90mdraid/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/90mdraid/*.sh
+%dir %{dracutlibdir}/modules.d/90multipath
+%attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
+%dir %{dracutlibdir}/modules.d/91crypt-gpg
+%attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
+%dir %{dracutlibdir}/modules.d/95debug
+%attr(755,root,root) %{dracutlibdir}/modules.d/95debug/*.sh
+%dir %{dracutlibdir}/modules.d/95resume
+%attr(755,root,root) %{dracutlibdir}/modules.d/95resume/*.sh
+%dir %{dracutlibdir}/modules.d/95rootfs-block
+%attr(755,root,root) %{dracutlibdir}/modules.d/95rootfs-block/*.sh
+%dir %{dracutlibdir}/modules.d/95dasd
+%attr(755,root,root) %{dracutlibdir}/modules.d/95dasd/*.sh
+%dir %{dracutlibdir}/modules.d/95dasd_mod
+%attr(755,root,root) %{dracutlibdir}/modules.d/95dasd_mod/*.sh
+%dir %{dracutlibdir}/modules.d/95fstab-sys
+%attr(755,root,root) %{dracutlibdir}/modules.d/95fstab-sys/*.sh
+%dir %{dracutlibdir}/modules.d/95zfcp
+%{dracutlibdir}/modules.d/95zfcp/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
+%dir %{dracutlibdir}/modules.d/95terminfo
+%attr(755,root,root) %{dracutlibdir}/modules.d/95terminfo/*.sh
+%dir %{dracutlibdir}/modules.d/95udev-rules
+%{dracutlibdir}/modules.d/95udev-rules/*.rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/95udev-rules/*.sh
+%dir %{dracutlibdir}/modules.d/96securityfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/96securityfs/*.sh
+%dir %{dracutlibdir}/modules.d/97biosdevname
+%attr(755,root,root) %{dracutlibdir}/modules.d/97biosdevname/*.sh
+%dir %{dracutlibdir}/modules.d/97masterkey
+%{dracutlibdir}/modules.d/97masterkey/README
+%attr(755,root,root) %{dracutlibdir}/modules.d/97masterkey/*.sh
+%dir %{dracutlibdir}/modules.d/98ecryptfs
+%{dracutlibdir}/modules.d/98ecryptfs/README
+%attr(755,root,root) %{dracutlibdir}/modules.d/98ecryptfs/*.sh
+%dir %{dracutlibdir}/modules.d/98integrity
+%{dracutlibdir}/modules.d/98integrity/README
+%attr(755,root,root) %{dracutlibdir}/modules.d/98integrity/*.sh
+%dir %{dracutlibdir}/modules.d/98selinux
+%attr(755,root,root) %{dracutlibdir}/modules.d/98selinux/*.sh
+%dir %{dracutlibdir}/modules.d/98syslog
+%{dracutlibdir}/modules.d/98syslog/README
+%{dracutlibdir}/modules.d/98syslog/rsyslog.conf
+%attr(755,root,root) %{dracutlibdir}/modules.d/98syslog/*.sh
+%dir %{dracutlibdir}/modules.d/98usrmount
+%attr(755,root,root) %{dracutlibdir}/modules.d/98usrmount/*.sh
+%dir %{dracutlibdir}/modules.d/99base
+%attr(755,root,root) %{dracutlibdir}/modules.d/99base/*.sh
+%dir %{dracutlibdir}/modules.d/99fs-lib
+%attr(755,root,root) %{dracutlibdir}/modules.d/99fs-lib/*.sh
+%dir %{dracutlibdir}/modules.d/99img-lib
+%attr(755,root,root) %{dracutlibdir}/modules.d/99img-lib/*.sh
+%dir %{dracutlibdir}/modules.d/99shutdown
+%attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
 %dir /var/lib/initramfs
 %{systemdunitdir}/*.service
 %{systemdunitdir}/*/*.service
@@ -193,15 +247,25 @@ rm -rf $RPM_BUILD_ROOT
 
 %files network
 %defattr(644,root,root,755)
-%{dracutlibdir}/modules.d/40network
-%{dracutlibdir}/modules.d/95fcoe
-%{dracutlibdir}/modules.d/95iscsi
-%{dracutlibdir}/modules.d/90livenet
-%{dracutlibdir}/modules.d/95nbd
-%{dracutlibdir}/modules.d/95nfs
-%{dracutlibdir}/modules.d/95ssh-client
-%{dracutlibdir}/modules.d/45ifcfg
-%{dracutlibdir}/modules.d/95znet
+%dir %{dracutlibdir}/modules.d/40network
+%{dracutlibdir}/modules.d/40network/dhclient.conf
+%attr(755,root,root) %{dracutlibdir}/modules.d/40network/*.sh
+%dir %{dracutlibdir}/modules.d/95fcoe
+%attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe/*.sh
+%dir %{dracutlibdir}/modules.d/95iscsi
+%attr(755,root,root) %{dracutlibdir}/modules.d/95iscsi/*.sh
+%dir %{dracutlibdir}/modules.d/90livenet
+%attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
+%dir %{dracutlibdir}/modules.d/95nbd
+%attr(755,root,root) %{dracutlibdir}/modules.d/95nbd/*.sh
+%dir %{dracutlibdir}/modules.d/95nfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/95nfs/*.sh
+%dir %{dracutlibdir}/modules.d/95ssh-client
+%attr(755,root,root) %{dracutlibdir}/modules.d/95ssh-client/*.sh
+%dir %{dracutlibdir}/modules.d/45ifcfg
+%attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
+%dir %{dracutlibdir}/modules.d/95znet
+%attr(755,root,root) %{dracutlibdir}/modules.d/95znet/*.sh
 
 %files fips
 %defattr(644,root,root,755)
@@ -211,11 +275,12 @@ rm -rf $RPM_BUILD_ROOT
 %files fips-aesni
 %defattr(644,root,root,755)
 %doc COPYING
-%{dracutlibdir}/modules.d/02fips-aesni
+%attr(755,root,root) %{dracutlibdir}/modules.d/02fips-aesni/*.sh
 
 %files caps
 %defattr(644,root,root,755)
-%{dracutlibdir}/modules.d/02caps
+%{dracutlibdir}/modules.d/02caps/README
+%attr(755,root,root) %{dracutlibdir}/modules.d/02caps/*.sh
 
 %files tools
 %defattr(644,root,root,755)
