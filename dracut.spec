@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -27,8 +27,27 @@ Requires:	systemd-units
 Requires:	udev
 Requires:	util-linux >= 2.20
 Requires:	virtual(module-tools)
+Suggests:	biosdevname
+Suggests:	btrfs-progs
+Suggests:	busybox
 Suggests:	bzip2
+Suggests:	cryptsetup-luks
 Suggests:	dash
+Suggests:	device-mapper
+Suggests:	dmraid
+Suggests:	e2fsprogs
+Suggests:	gnupg
+Suggests:	kbd
+Suggests:	keyutils
+Suggests:	libselinux-utils
+Suggests:	losetup
+Suggests:	lvm2
+Suggests:	mdadm
+Suggests:	multipath-tools
+Suggests:	plymouth
+Suggests:	suspend-utils
+Suggests:	syslogdaemon
+Suggests:	xfsprogs
 Suggests:	xz
 Conflicts:	kmod < 6
 BuildArch:	noarch
@@ -48,6 +67,18 @@ dracut-network package.
 Summary:	Dracut modules to build a dracut initramfs with network support
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
+Requires:	bridge-utils
+Requires:	dhclient
+Requires:	iproute2
+Requires:	iputils-arping
+Requires:	iputils-ping
+Requires:	nbd
+Requires:	net-tools
+Requires:	nfs-utils-clients
+Requires:	open-iscsi
+Requires:	openssh-clients
+Requires:	rpcbind
+Suggests:	curl
 
 %description network
 This package requires everything which is needed to build a generic
@@ -164,8 +195,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/10rpmversion/*.sh
 %dir %{dracutlibdir}/modules.d/30convertfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
-%dir %{dracutlibdir}/modules.d/45url-lib
-%attr(755,root,root) %{dracutlibdir}/modules.d/45url-lib/*.sh
 %dir %{dracutlibdir}/modules.d/50plymouth
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
@@ -255,20 +284,22 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/40network
 %{dracutlibdir}/modules.d/40network/dhclient.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/40network/*.sh
+%dir %{dracutlibdir}/modules.d/45ifcfg
+%attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
+%dir %{dracutlibdir}/modules.d/45url-lib
+%attr(755,root,root) %{dracutlibdir}/modules.d/45url-lib/*.sh
+%dir %{dracutlibdir}/modules.d/90livenet
+%attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
 %dir %{dracutlibdir}/modules.d/95fcoe
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe/*.sh
 %dir %{dracutlibdir}/modules.d/95iscsi
 %attr(755,root,root) %{dracutlibdir}/modules.d/95iscsi/*.sh
-%dir %{dracutlibdir}/modules.d/90livenet
-%attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
 %dir %{dracutlibdir}/modules.d/95nbd
 %attr(755,root,root) %{dracutlibdir}/modules.d/95nbd/*.sh
 %dir %{dracutlibdir}/modules.d/95nfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/95nfs/*.sh
 %dir %{dracutlibdir}/modules.d/95ssh-client
 %attr(755,root,root) %{dracutlibdir}/modules.d/95ssh-client/*.sh
-%dir %{dracutlibdir}/modules.d/45ifcfg
-%attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
 %dir %{dracutlibdir}/modules.d/95znet
 %attr(755,root,root) %{dracutlibdir}/modules.d/95znet/*.sh
 
