@@ -31,7 +31,7 @@ Suggests:	biosdevname
 Suggests:	btrfs-progs
 Suggests:	busybox
 Suggests:	bzip2
-Suggests:	cryptsetup-luks
+Suggests:	cryptsetup
 Suggests:	dash
 Suggests:	device-mapper
 Suggests:	dmraid
