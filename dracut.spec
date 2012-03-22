@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -10,6 +10,7 @@ Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		create-target-dir-for-symlink.patch
 Patch2:		bash-sh.patch
+Patch3:		plymouth-libexec.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
@@ -129,6 +130,9 @@ configuration.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+
+%{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
 
 %build
 %{__make}
