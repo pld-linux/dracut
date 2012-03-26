@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	017
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -69,7 +69,7 @@ Summary:	Dracut modules to build a dracut initramfs with network support
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	bridge-utils
-Requires:	dhclient
+Requires:	dhcp-client
 Requires:	iproute2
 Requires:	iputils-arping
 Requires:	iputils-ping
@@ -309,17 +309,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files fips
 %defattr(644,root,root,755)
-%{dracutlibdir}/modules.d/01fips
+%dir %{dracutlibdir}/modules.d/01fips
+%attr(755,root,root) %{dracutlibdir}/modules.d/01fips/*.sh
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/40-fips.conf
 
 %files fips-aesni
 %defattr(644,root,root,755)
 %doc COPYING
+%dir %{dracutlibdir}/modules.d/02fips-aesni
 %attr(755,root,root) %{dracutlibdir}/modules.d/02fips-aesni/*.sh
 
 %files caps
 %defattr(644,root,root,755)
 %{dracutlibdir}/modules.d/02caps/README
+%dir %{dracutlibdir}/modules.d/02caps
 %attr(755,root,root) %{dracutlibdir}/modules.d/02caps/*.sh
 
 %files tools
