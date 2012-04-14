@@ -1,14 +1,13 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
-Version:	017
-Release:	4
+Version:	018
+Release:	0.1
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	8c966954cd973b5abbd7193368f1d5cc
+# Source0-md5:	e65f2a54b6d64619334f501a346f7823
 Source1:	pld.conf
 Patch0:		no-rh.patch
-Patch1:		create-target-dir-for-symlink.patch
 Patch2:		bash-sh.patch
 Patch3:		plymouth-libexec.patch
 URL:		https://dracut.wiki.kernel.org/
@@ -128,7 +127,6 @@ configuration.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
@@ -201,6 +199,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
 %dir %{dracutlibdir}/modules.d/50plymouth
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
+%dir %{dracutlibdir}/modules.d/80cms
+%attr(755,root,root) %{dracutlibdir}/modules.d/80cms/*.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
 %{dracutlibdir}/modules.d/90btrfs/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh
@@ -259,6 +259,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/98integrity
 %{dracutlibdir}/modules.d/98integrity/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/98integrity/*.sh
+%dir %{dracutlibdir}/modules.d/98pollcdrom
+%attr(755,root,root) %{dracutlibdir}/modules.d/98pollcdrom/*.sh
 %dir %{dracutlibdir}/modules.d/98selinux
 %attr(755,root,root) %{dracutlibdir}/modules.d/98selinux/*.sh
 %dir %{dracutlibdir}/modules.d/98syslog
@@ -327,9 +329,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files tools
 %defattr(644,root,root,755)
-%{_mandir}/man8/dracut-gencmdline.8*
 %{_mandir}/man8/dracut-catimages.8*
-%attr(755,root,root) %{_bindir}/dracut-gencmdline
 %attr(755,root,root) %{_bindir}/dracut-catimages
 %dir /boot/dracut
 %dir /var/lib/dracut
