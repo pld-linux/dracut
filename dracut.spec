@@ -1,15 +1,16 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	018
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	e65f2a54b6d64619334f501a346f7823
 Source1:	pld.conf
 Patch0:		no-rh.patch
-Patch2:		bash-sh.patch
-Patch3:		plymouth-libexec.patch
+Patch1:		bash-sh.patch
+Patch2:		plymouth-libexec.patch
+Patch3:		reboot-opts.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
@@ -128,6 +129,7 @@ configuration.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
