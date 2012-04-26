@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	018
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -21,6 +21,7 @@ Requires:	coreutils
 Requires:	cpio
 Requires:	filesystem
 Requires:	findutils
+Requires:	glibc-misc
 Requires:	grep
 Requires:	gzip
 Requires:	hardlink
