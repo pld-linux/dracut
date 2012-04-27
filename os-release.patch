@@ -1,0 +1,11 @@
+--- dracut-018/modules.d/50plymouth/plymouth-populate-initrd.sh~	2012-04-05 13:54:38.000000000 +0200
++++ dracut-018/modules.d/50plymouth/plymouth-populate-initrd.sh	2012-04-27 13:04:05.676319178 +0200
+@@ -7,7 +7,7 @@
+ inst /sbin/plymouthd /bin/plymouthd
+ dracut_install /bin/plymouth \
+     "${PLYMOUTH_LOGO_FILE}" \
+-    /etc/system-release
++    /etc/os-release
+ 
+ mkdir -m 0755 -p "${initdir}/usr/share/plymouth"
+ 
