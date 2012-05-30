@@ -1,7 +1,7 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
 Version:	018
-Release:	5
+Release:	6
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -31,7 +31,9 @@ Requires:	systemd-units
 Requires:	udev
 Requires:	util-linux >= 2.20
 Requires:	virtual(module-tools)
-Suggests:	biosdevname
+# disabled due to angry (bug)reports, because it changes well known
+# net device names from ethX to emX or pXpY
+#Suggests:	biosdevname
 Suggests:	btrfs-progs
 Suggests:	busybox
 Suggests:	bzip2
