@@ -1,11 +1,11 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
-Version:	018
-Release:	6
+Version:	019
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	e65f2a54b6d64619334f501a346f7823
+# Source0-md5:	ff7766d1fdb00f47af6c66f6a2ae8cea
 Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		bash-sh.patch
@@ -132,7 +132,7 @@ configuration.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -154,8 +154,6 @@ install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
 	systemdsystemunitdir=%{systemdunitdir} \
 	sysconfdir=%{_sysconfdir} \
 	mandir=%{_mandir}
-
-echo %{name}-%{version}-%{release} > $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/10rpmversion/dracut-version
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
 install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
@@ -200,9 +198,6 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/10i18n/README
 %{dracutlibdir}/modules.d/10i18n/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/10i18n/*.sh
-%dir %{dracutlibdir}/modules.d/10rpmversion
-%{dracutlibdir}/modules.d/10rpmversion/dracut-version
-%attr(755,root,root) %{dracutlibdir}/modules.d/10rpmversion/*.sh
 %dir %{dracutlibdir}/modules.d/30convertfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
 %dir %{dracutlibdir}/modules.d/50plymouth
@@ -254,6 +249,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/95udev-rules
 %{dracutlibdir}/modules.d/95udev-rules/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/95udev-rules/*.sh
+%dir %{dracutlibdir}/modules.d/95virtfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/95virtfs/*.sh
 %dir %{dracutlibdir}/modules.d/96securityfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/96securityfs/*.sh
 %dir %{dracutlibdir}/modules.d/97biosdevname
@@ -275,6 +272,10 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/98syslog/README
 %{dracutlibdir}/modules.d/98syslog/rsyslog.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/98syslog/*.sh
+%dir %{dracutlibdir}/modules.d/98systemd
+%{dracutlibdir}/modules.d/98systemd/*.service
+%{dracutlibdir}/modules.d/98systemd/*.target
+%attr(755,root,root) %{dracutlibdir}/modules.d/98systemd/*.sh
 %dir %{dracutlibdir}/modules.d/98usrmount
 %attr(755,root,root) %{dracutlibdir}/modules.d/98usrmount/*.sh
 %dir %{dracutlibdir}/modules.d/99base
@@ -285,8 +286,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/99img-lib/*.sh
 %dir %{dracutlibdir}/modules.d/99shutdown
 %attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
+%attr(755,root,root) %{dracutlibdir}/dracut-version.sh
+
 %dir /var/lib/initramfs
 %{systemdunitdir}/*.service
+%{systemdunitdir}/*.target
 %{systemdunitdir}/*/*.service
 %{_mandir}/man8/dracut.8*
 %{_mandir}/man7/dracut.kernel.7*
