@@ -1,11 +1,11 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
-Version:	019
+Version:	020
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	ff7766d1fdb00f47af6c66f6a2ae8cea
+# Source0-md5:	da9e5a083cd9081bb71cc7df2f0daedc
 Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		bash-sh.patch
@@ -178,6 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 # compat symlink
 %attr(755,root,root) /sbin/dracut
 %attr(755,root,root) %{_bindir}/dracut
+%attr(755,root,root) %{_bindir}/dracut-install
 %attr(755,root,root) %{_bindir}/mkinitrd
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
@@ -192,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
 %dir %{dracutlibdir}/modules.d/01bash
 %attr(755,root,root) %{dracutlibdir}/modules.d/01bash/*.sh
+%dir %{dracutlibdir}/modules.d/04watchdog
+%attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog/*.sh
 %dir %{dracutlibdir}/modules.d/05busybox
 %attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
 %dir %{dracutlibdir}/modules.d/10i18n
@@ -227,6 +230,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90mdraid/*.sh
 %dir %{dracutlibdir}/modules.d/90multipath
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
+%dir %{dracutlibdir}/modules.d/90qemu
+%attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
 %dir %{dracutlibdir}/modules.d/95debug
@@ -308,6 +313,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/45url-lib/*.sh
 %dir %{dracutlibdir}/modules.d/90livenet
 %attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
+%dir %{dracutlibdir}/modules.d/90qemu-net
+%attr(755,root,root) %{dracutlibdir}/modules.d/90qemu-net/*.sh
 %dir %{dracutlibdir}/modules.d/95fcoe
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe/*.sh
 %dir %{dracutlibdir}/modules.d/95iscsi
