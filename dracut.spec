@@ -1,16 +1,15 @@
 Summary:	Initramfs generator using udev
 Name:		dracut
-Version:	020
-Release:	4
+Version:	023
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	da9e5a083cd9081bb71cc7df2f0daedc
+# Source0-md5:	7ae42fa8272363400ee6161c47d1beb5
 Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		bash-sh.patch
 Patch2:		plymouth-libexec.patch
-Patch3:		reboot-opts.patch
 Patch4:		os-release.patch
 Patch5:		plymouth-logo.patch
 URL:		https://dracut.wiki.kernel.org/
@@ -137,7 +136,6 @@ configuration.
 #%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 
@@ -181,7 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 # compat symlink
 %attr(755,root,root) /sbin/dracut
 %attr(755,root,root) %{_bindir}/dracut
-%attr(755,root,root) %{_bindir}/dracut-install
+%attr(755,root,root) %{dracutlibdir}/dracut-install
 %attr(755,root,root) %{_bindir}/mkinitrd
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
@@ -215,6 +213,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh
 %dir %{dracutlibdir}/modules.d/90crypt
 %attr(755,root,root) %{dracutlibdir}/modules.d/90crypt/*.sh
+%dir %{dracutlibdir}/modules.d/91crypt-loop
+%attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-loop/*.sh
 %dir %{dracutlibdir}/modules.d/90dm
 %{dracutlibdir}/modules.d/90dm/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dm/*.sh
@@ -237,6 +237,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
+%dir %{dracutlibdir}/modules.d/95cifs
+%attr(755,root,root) %{dracutlibdir}/modules.d/95cifs/*.sh
 %dir %{dracutlibdir}/modules.d/95debug
 %attr(755,root,root) %{dracutlibdir}/modules.d/95debug/*.sh
 %dir %{dracutlibdir}/modules.d/95resume
@@ -284,6 +286,7 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/98systemd/*.service
 %{dracutlibdir}/modules.d/98systemd/*.target
 %attr(755,root,root) %{dracutlibdir}/modules.d/98systemd/*.sh
+%doc %{dracutlibdir}/modules.d/98systemd/*.8*
 %dir %{dracutlibdir}/modules.d/98usrmount
 %attr(755,root,root) %{dracutlibdir}/modules.d/98usrmount/*.sh
 %dir %{dracutlibdir}/modules.d/99base
@@ -298,9 +301,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir /var/lib/initramfs
 %{systemdunitdir}/*.service
-%{systemdunitdir}/*.target
 %{systemdunitdir}/*/*.service
 %{_mandir}/man8/dracut.8*
+%{_mandir}/man8/dracut-*.8*
+%{_mandir}/man8/initrd-switch-root.service.8*
+%{_mandir}/man8/udevadm-cleanup-db.service.8*
 %{_mandir}/man7/dracut.kernel.7*
 %{_mandir}/man7/dracut.cmdline.7*
 %{_mandir}/man5/dracut.conf.5*
