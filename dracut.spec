@@ -1,4 +1,5 @@
 Summary:	Initramfs generator using udev
+Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	023
 Release:	1
@@ -70,8 +71,18 @@ which are driven by the event-based udev. Having root on MD, DM, LVM2,
 LUKS is supported as well as NFS, iSCSI, NBD, FCoE with the
 dracut-network package.
 
+%description -l pl.UTF-8
+Dracut zawiera narzędzia do tworzenia uruchamialnych obrazów initramfs
+dla jąder Linuksa 2.6. W przeciwieństwie do wcześniejszych
+implementacji, dracut zaszywa możliwie najmniej stałych w initramfs.
+Zawiera różne moduły sterowane w oparciu o zdarzenia udev. Obsługiwane
+jest przechowywanie głównego systemu plików na urządzeniach MD, DM,
+LVM2, LUKS, a po doinstalowaniu pakietu dracut-network także poprzez
+NFS, iSCSI, NBD, FCoE.
+
 %package network
 Summary:	Dracut modules to build a dracut initramfs with network support
+Summary(pl.UTF-8):	Moduły Dracuta do tworzenia initramfs z obsługą sieci
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	bridge-utils
@@ -91,8 +102,14 @@ Suggests:	curl
 This package requires everything which is needed to build a generic
 all purpose initramfs with network support with dracut.
 
+%description network -l pl.UTF-8
+Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
+dracuta zwykłych obrazów initramfs dowolnego przeznaczenia z obsługą
+sieci.
+
 %package fips
 Summary:	Dracut modules to build a dracut initramfs with an integrity check
+Summary(pl.UTF-8):	Moduły Dracuta do tworzenia initramfs z kontrolą spójności
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	hmaccalc
@@ -102,8 +119,14 @@ Requires:	nss-softokn-freebl
 This package requires everything which is needed to build an all
 purpose initramfs with dracut, which does an integrity check.
 
+%description fips -l pl.UTF-8
+Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
+dracuta obrazów initramfs dowolnego przeznaczenia, wykonujących
+kontrolę własnej spójności.
+
 %package fips-aesni
 Summary:	Dracut modules to build a dracut initramfs with an integrity check with aesni-intel
+Summary(pl.UTF-8):	Moduły Dracuta do tworzenia initramfs z kontrolą spójności przez aesni-intel
 Group:		Base
 Requires:	%{name}-fips = %{version}-%{release}
 
@@ -112,8 +135,14 @@ This package requires everything which is needed to build an all
 purpose initramfs with dracut, which does an integrity check and adds
 the aesni-intel kernel module.
 
+%description fips-aesni -l pl.UTF-8
+Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
+dracuta obrazów initramfs dowolnego przeznaczenia wykonujących
+kontrolę własnej spójności z dodanym modułem jądra aesni-intel.
+
 %package caps
 Summary:	Dracut modules to build a dracut initramfs which drops capabilities
+Summary(pl.UTF-8):	Moduły Dracuta do tworzenia initramfs zrzucającego uprawnienia
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	libcap
@@ -122,14 +151,24 @@ Requires:	libcap
 This package requires everything which is needed to build an all
 purpose initramfs with dracut, which drops capabilities.
 
+%description caps -l pl
+Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
+dracuta obrazów initramfs dowolnego przeznaczenia zrzucających
+uprawnienia.
+
 %package tools
 Summary:	Dracut tools to build the local initramfs
+Summary(pl.UTF-8):	Narzędzia Dracuta do tworzenia lokalnych initramfs
 Group:		Base
 Requires:	%{name} = %{version}-%{release}
 
 %description tools
 This package contains tools to assemble the local initrd and host
 configuration.
+
+%description tools -l pl.UTF-8
+Ten pakiet zawiera narzędzia do łączenia lokalnych initrd oraz
+konfiguracji maszyn.
 
 %prep
 %setup -q
@@ -140,6 +179,7 @@ configuration.
 %patch5 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
+find modules.d -name '*.orig' | xargs -r %{__rm}
 
 %build
 %{__make}
@@ -164,14 +204,14 @@ install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
 
 # remove gentoo specific modules
-%{__rm} -r $RPM_BUILD_ROOT/%{dracutlibdir}/modules.d/50gensplash
+%{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/50gensplash
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README HACKING TODO COPYING AUTHORS NEWS dracut.html dracut.png dracut.svg
+%doc AUTHORS HACKING NEWS README TODO dracut.html dracut.png dracut.svg
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
@@ -179,10 +219,10 @@ rm -rf $RPM_BUILD_ROOT
 # compat symlink
 %attr(755,root,root) /sbin/dracut
 %attr(755,root,root) %{_bindir}/dracut
-%attr(755,root,root) %{dracutlibdir}/dracut-install
 %attr(755,root,root) %{_bindir}/mkinitrd
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
+%attr(755,root,root) %{dracutlibdir}/dracut-install
 %dir %{dracutlibdir}/modules.d
 %attr(755,root,root) %{dracutlibdir}/dracut-functions.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-functions
@@ -302,13 +342,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir /var/lib/initramfs
 %{systemdunitdir}/*.service
 %{systemdunitdir}/*/*.service
+%{_mandir}/man1/lsinitrd.1*
+%{_mandir}/man5/dracut.conf.5*
+%{_mandir}/man7/dracut.kernel.7*
+%{_mandir}/man7/dracut.cmdline.7*
 %{_mandir}/man8/dracut.8*
 %{_mandir}/man8/dracut-*.8*
 %{_mandir}/man8/initrd-switch-root.service.8*
+%{_mandir}/man8/mkinitrd.8*
 %{_mandir}/man8/udevadm-cleanup-db.service.8*
-%{_mandir}/man7/dracut.kernel.7*
-%{_mandir}/man7/dracut.cmdline.7*
-%{_mandir}/man5/dracut.conf.5*
 
 %files network
 %defattr(644,root,root,755)
@@ -344,7 +386,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files fips-aesni
 %defattr(644,root,root,755)
-%doc COPYING
 %dir %{dracutlibdir}/modules.d/02fips-aesni
 %attr(755,root,root) %{dracutlibdir}/modules.d/02fips-aesni/*.sh
 
@@ -356,8 +397,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files tools
 %defattr(644,root,root,755)
-%{_mandir}/man8/dracut-catimages.8*
 %attr(755,root,root) %{_bindir}/dracut-catimages
+%{_mandir}/man8/dracut-catimages.8*
 %dir /boot/dracut
 %dir /var/lib/dracut
 %dir /var/lib/dracut/overlay
