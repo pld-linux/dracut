@@ -182,14 +182,17 @@ konfiguracji maszyn.
 find modules.d -name '*.orig' | xargs -r %{__rm}
 
 %build
-%{__make}
+%{__make} all doc \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
 	$RPM_BUILD_ROOT/var/{log,lib/{dracut/overlay,initramfs}}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT \
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
 	libdir=%{_prefix}/lib \
 	bindir=%{_bindir} \
 	systemdsystemunitdir=%{systemdunitdir} \
