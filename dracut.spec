@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	023
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -280,8 +280,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
-%dir %{dracutlibdir}/modules.d/95cifs
-%attr(755,root,root) %{dracutlibdir}/modules.d/95cifs/*.sh
 %dir %{dracutlibdir}/modules.d/95debug
 %attr(755,root,root) %{dracutlibdir}/modules.d/95debug/*.sh
 %dir %{dracutlibdir}/modules.d/95resume
@@ -368,6 +366,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
 %dir %{dracutlibdir}/modules.d/90qemu-net
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu-net/*.sh
+%dir %{dracutlibdir}/modules.d/95cifs
+%attr(755,root,root) %{dracutlibdir}/modules.d/95cifs/*.sh
 %dir %{dracutlibdir}/modules.d/95fcoe
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe/*.sh
 %dir %{dracutlibdir}/modules.d/95iscsi
