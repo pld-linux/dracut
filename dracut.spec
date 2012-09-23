@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	023
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -348,7 +348,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man7/dracut.kernel.7*
 %{_mandir}/man7/dracut.cmdline.7*
 %{_mandir}/man8/dracut.8*
-%{_mandir}/man8/dracut-*.8*
+%{_mandir}/man8/dracut-cmdline.service.8*
+%{_mandir}/man8/dracut-initqueue.service.8*
+%{_mandir}/man8/dracut-pre-pivot.service.8*
+%{_mandir}/man8/dracut-pre-trigger.service.8*
+%{_mandir}/man8/dracut-pre-udev.service.8*
 %{_mandir}/man8/initrd-switch-root.service.8*
 %{_mandir}/man8/mkinitrd.8*
 %{_mandir}/man8/udevadm-cleanup-db.service.8*
