@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	024
+Version:	025
 Release:	1
 License:	GPL v2+
 Group:		Base
-Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	253080492f6f0168be24a60758fa6b31
+Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
+# Source0-md5:	62bb8de340afbe19756e40a846f935de
 Source1:	pld.conf
 Patch0:		no-rh.patch
 Patch1:		bash-sh.patch
@@ -214,7 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS HACKING NEWS README TODO dracut.html dracut.png dracut.svg
+%doc AUTHORS HACKING NEWS README* TODO dracut.html dracut.png dracut.svg
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
@@ -247,6 +247,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/10i18n/*.sh
 %dir %{dracutlibdir}/modules.d/30convertfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
+%dir %{dracutlibdir}/modules.d/50drm
+%attr(755,root,root) %{dracutlibdir}/modules.d/50drm/module-setup.sh
 %dir %{dracutlibdir}/modules.d/50plymouth
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
 %dir %{dracutlibdir}/modules.d/80cms
@@ -266,6 +268,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmraid/*.sh
 %dir %{dracutlibdir}/modules.d/90dmsquash-live
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live/*.sh
+%{dracutlibdir}/modules.d/90dmsquash-live/checkisomd5@.service
 %dir %{dracutlibdir}/modules.d/90kernel-modules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-modules/*.sh
 %dir %{dracutlibdir}/modules.d/90lvm
