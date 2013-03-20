@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	023
-Release:	6
+Release:	7
 License:	GPL v2+
 Group:		Base
 Source0:	ftp://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -13,6 +13,7 @@ Patch1:		bash-sh.patch
 Patch2:		plymouth-libexec.patch
 Patch4:		os-release.patch
 Patch5:		plymouth-logo.patch
+Patch6:		arch-libdir.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
@@ -177,8 +178,10 @@ konfiguracji maszyn.
 %patch2 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
+%{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
 find modules.d -name '*.orig' | xargs -r %{__rm}
 
 %build
