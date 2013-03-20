@@ -8,11 +8,11 @@ Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
 # Source0-md5:	62bb8de340afbe19756e40a846f935de
 Source1:	pld.conf
-Patch0:		no-rh.patch
-Patch1:		bash-sh.patch
-Patch2:		plymouth-libexec.patch
-Patch4:		os-release.patch
-Patch5:		plymouth-logo.patch
+Patch0:		bash-sh.patch
+Patch1:		plymouth-libexec.patch
+Patch2:		os-release.patch
+Patch3:		plymouth-logo.patch
+Patch4:		arch-libdir.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
@@ -172,13 +172,14 @@ konfiguracji maszyn.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
+%{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
 find modules.d -name '*.orig' | xargs -r %{__rm}
 
 %build

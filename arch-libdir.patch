@@ -1,0 +1,11 @@
+--- dracut-025/modules.d/95resume/module-setup.sh~	2013-01-23 15:38:48.000000000 +0100
++++ dracut-025/modules.d/95resume/module-setup.sh	2013-03-20 20:09:33.210521322 +0100
+@@ -5,7 +5,7 @@
+ install() {
+     local _bin
+     # Optional uswsusp support
+-    for _bin in /usr/sbin/resume /usr/lib/suspend/resume
++    for _bin in /usr/sbin/resume /usr/@lib@/suspend/resume
+     do
+         [[ -x "${_bin}" ]] && {
+             inst "${_bin}" /usr/sbin/resume
