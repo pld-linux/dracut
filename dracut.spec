@@ -59,6 +59,7 @@ Suggests:	syslogdaemon
 Suggests:	xfsprogs
 Suggests:	xz
 Conflicts:	kmod < 6
+Conflicts:	systemd < 1:198
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		dracutlibdir	%{_prefix}/lib/dracut
