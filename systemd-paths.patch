@@ -20,14 +20,3 @@
  Type=idle
  StandardInput=tty-force
  StandardOutput=inherit
---- dracut-026/modules.d/98systemd/rescue.service~	2013-03-08 07:07:48.000000000 +0100
-+++ dracut-026/modules.d/98systemd/rescue.service	2013-03-21 13:23:51.761696508 +0100
-@@ -17,7 +17,7 @@
- ExecStartPre=-/bin/plymouth quit
- ExecStart=-/bin/sh -i -l
- ExecStopPost=-/bin/rm -f /.console_lock
--ExecStopPost=-/usr/bin/systemctl --fail --no-block default
-+ExecStopPost=-/bin/systemctl --fail --no-block default
- Type=idle
- StandardInput=tty-force
- StandardOutput=inherit
