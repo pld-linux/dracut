@@ -14,6 +14,7 @@ Patch2:		os-release.patch
 Patch3:		plymouth-logo.patch
 Patch4:		arch-libdir.patch
 URL:		https://dracut.wiki.kernel.org/
+BuildRequires:	asciidoc
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
