@@ -1,5 +1,5 @@
---- /home/users/baggins/rpm/BUILD/dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh~	2013-03-08 07:07:48.000000000 +0100
-+++ /home/users/baggins/rpm/BUILD/dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh	2013-03-21 15:31:40.449408516 +0100
+--- dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh~	2013-03-08 07:07:48.000000000 +0100
++++ dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh	2013-03-21 15:31:40.449408516 +0100
 @@ -2,7 +2,7 @@
  # -*- mode: shell-script; indent-tabs-mode: nil; sh-basic-offset: 4; -*-
  # ex: ts=8 sw=4 sts=4 et filetype=sh
