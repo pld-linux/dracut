@@ -20,3 +20,14 @@
  Type=idle
  StandardInput=tty-force
  StandardOutput=inherit
+--- dracut-023/modules.d/98systemd/udevadm-cleanup-db.service~	2012-08-01 15:30:30.000000000 +0200
++++ dracut-023/modules.d/98systemd/udevadm-cleanup-db.service	2013-03-21 20:22:21.089897000 +0100
+@@ -16,7 +16,7 @@
+ 
+ [Service]
+ Type=oneshot
+-ExecStart=-/usr/bin/udevadm info --cleanup-db
++ExecStart=-/sbin/udevadm info --cleanup-db
+ StandardInput=null
+ StandardOutput=null
+ StandardError=null
