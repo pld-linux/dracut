@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	026
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -209,6 +209,8 @@ install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
 install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
 install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
+
+echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT/%{dracutlibdir}/dracut-version.sh
 
 # create compat symlink
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
