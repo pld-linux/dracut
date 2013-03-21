@@ -1,0 +1,20 @@
+--- /home/users/baggins/rpm/BUILD/dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh~	2013-03-08 07:07:48.000000000 +0100
++++ /home/users/baggins/rpm/BUILD/dracut-026/modules.d/50plymouth/plymouth-pretrigger.sh	2013-03-21 15:31:40.449408516 +0100
+@@ -2,7 +2,7 @@
+ # -*- mode: shell-script; indent-tabs-mode: nil; sh-basic-offset: 4; -*-
+ # ex: ts=8 sw=4 sts=4 et filetype=sh
+ 
+-if [ -x /bin/plymouthd -a -z "$DRACUT_SYSTEMD" ]; then
++if [ -x /sbin/plymouthd -a -z "$DRACUT_SYSTEMD" ]; then
+     if getargbool 1 plymouth.enable && getargbool 1 rd.plymouth -d -n rd_NO_PLYMOUTH; then
+         # first trigger graphics subsystem
+         udevadm trigger --action=add --attr-match=class=0x030000 >/dev/null 2>&1
+@@ -16,7 +16,7 @@
+         read consoledev rest < /sys/class/tty/console/active
+         consoledev=${consoledev:-tty0}
+         [ -x /lib/udev/console_init -a -e "/dev/$consoledev" ] && /lib/udev/console_init "/dev/$consoledev"
+-        [ -x /bin/plymouthd ] && /bin/plymouthd --attach-to-session --pid-file /run/plymouth/pid
++        [ -x /sbin/plymouthd ] && /sbin/plymouthd --attach-to-session --pid-file /run/plymouth/pid
+         /bin/plymouth --show-splash 2>&1 | vinfo
+         # reset tty after plymouth messed with it
+         [ -x /lib/udev/console_init -a -e "/dev/$consoledev" ] && /lib/udev/console_init "/dev/$consoledev"

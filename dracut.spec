@@ -14,6 +14,7 @@ Patch2:		os-release.patch
 Patch3:		plymouth-logo.patch
 Patch4:		arch-libdir.patch
 Patch5:		systemd-paths.patch
+Patch6:		plymouthd-path.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -181,6 +182,7 @@ konfiguracji maszyn.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
