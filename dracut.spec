@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	027
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -173,6 +173,19 @@ configuration.
 %description tools -l pl.UTF-8
 Ten pakiet zawiera narzędzia do łączenia lokalnych initrd oraz
 konfiguracji maszyn.
+
+%package -n bash-completion-dracut
+Summary:	bash-completion for dracut
+Summary(pl.UTF-8):	Bashowe dopełnianie składni dla dracut
+Group:		Applications/Shells
+Requires:	%{name} = %{version}
+Requires:	bash-completion >= 2.0
+
+%description -n bash-completion-dracut
+bash-completion for dracut.
+
+%description -n bash-completion-dracut -l pl.UTF-8
+Bashowe dopełnianie składni dla dracut.
 
 %prep
 %setup -q
@@ -430,3 +443,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /boot/dracut
 %dir /var/lib/dracut
 %dir /var/lib/dracut/overlay
+
+%files -n bash-completion-dracut
+%defattr(644,root,root,755)
+%{_datadir}/bash-completion/completions/dracut
