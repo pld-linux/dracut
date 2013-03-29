@@ -176,7 +176,7 @@ konfiguracji maszyn.
 
 %package -n bash-completion-dracut
 Summary:	bash-completion for dracut
-Summary(pl.UTF-8):	Bashowe dopełnianie składni dla dracut
+Summary(pl.UTF-8):	Bashowe dopełnianie składni dla polecenia dracut
 Group:		Applications/Shells
 Requires:	%{name} = %{version}
 Requires:	bash-completion >= 2.0
@@ -185,7 +185,7 @@ Requires:	bash-completion >= 2.0
 bash-completion for dracut.
 
 %description -n bash-completion-dracut -l pl.UTF-8
-Bashowe dopełnianie składni dla dracut.
+Bashowe dopełnianie składni dla polecenia dracut.
 
 %prep
 %setup -q
@@ -389,7 +389,6 @@ rm -rf $RPM_BUILD_ROOT
 
 #/usr/lib/kernel/install.d/50-dracut.install
 #/usr/lib/kernel/install.d/51-dracut-rescue.install
-#/usr/share/bash-completion/completions/dracut
 
 %files network
 %defattr(644,root,root,755)
