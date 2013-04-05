@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	027
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -15,6 +15,7 @@ Patch3:		plymouth-logo.patch
 Patch4:		arch-libdir.patch
 Patch5:		systemd-paths.patch
 Patch6:		plymouthd-path.patch
+Patch100:	git.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -189,6 +190,7 @@ Bashowe dopełnianie składni dla polecenia dracut.
 
 %prep
 %setup -q
+%patch100 -p1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
