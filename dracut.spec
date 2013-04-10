@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	027
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -63,7 +63,7 @@ Suggests:	syslogdaemon
 Suggests:	xfsprogs
 Suggests:	xz
 Conflicts:	kmod < 6
-Conflicts:	systemd < 1:198
+Conflicts:	systemd < 1:199
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		dracutlibdir	%{_prefix}/lib/dracut
