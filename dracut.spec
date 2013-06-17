@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	027
-Release:	4
+Version:	029
+Release:	0.1
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	37d791ca7e9c0fdc0bf8902f579b9e2b
+# Source0-md5:	2a27278f6cd3090d8d638aa7dfa70b0b
 Source1:	pld.conf
 Patch0:		bash-sh.patch
 Patch1:		plymouth-libexec.patch
@@ -14,8 +14,6 @@ Patch2:		os-release.patch
 Patch3:		plymouth-logo.patch
 Patch4:		arch-libdir.patch
 Patch5:		systemd-paths.patch
-Patch6:		plymouthd-path.patch
-Patch100:	git.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -190,14 +188,12 @@ Bashowe dopełnianie składni dla polecenia dracut.
 
 %prep
 %setup -q
-%patch100 -p1
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
@@ -324,7 +320,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/95fstab-sys
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fstab-sys/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp
-%{dracutlibdir}/modules.d/95zfcp/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
 %dir %{dracutlibdir}/modules.d/95terminfo
 %attr(755,root,root) %{dracutlibdir}/modules.d/95terminfo/*.sh
@@ -386,6 +381,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/dracut-pre-pivot.service.8*
 %{_mandir}/man8/dracut-pre-trigger.service.8*
 %{_mandir}/man8/dracut-pre-udev.service.8*
+%{_mandir}/man8/dracut-shutdown.service.8*
 %{_mandir}/man8/mkinitrd.8*
 %{_mandir}/man7/dracut.bootup.7.gz
 
@@ -448,3 +444,4 @@ rm -rf $RPM_BUILD_ROOT
 %files -n bash-completion-dracut
 %defattr(644,root,root,755)
 %{_datadir}/bash-completion/completions/dracut
+%{_datadir}/bash-completion/completions/lsinitrd
