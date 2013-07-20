@@ -10,6 +10,6 @@
          dinfo "*** Pre-linking files ***"
 -        dracut_install -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
 +        dracut_install -l -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
-         chroot "$initdir" $PRELINK_BIN -a
-         rm -f "$initdir"/$PRELINK_BIN
+         chroot "$initdir" "$PRELINK_BIN" -a
+         rm -f "$initdir/$PRELINK_BIN"
          rm -fr "$initdir"/etc/prelink.*
