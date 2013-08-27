@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	030
+Version:	032
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	541c7f861b7fe64ae6114e546d75af4f
+# Source0-md5:	3e74a9429ea22bf4e92bf59c4ccdfe75
 Source1:	pld.conf
 Patch0:		bash-sh.patch
 Patch1:		plymouth-libexec.patch
@@ -253,6 +253,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/dracut-functions
 %attr(755,root,root) %{dracutlibdir}/dracut-logger.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-initramfs-restore
+%dir %{dracutlibdir}/modules.d/00bash
+%attr(755,root,root) %{dracutlibdir}/modules.d/00bash/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00bootchart
 %attr(755,root,root) %{dracutlibdir}/modules.d/00bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/00dash
@@ -261,6 +263,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd-bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/01bash
 %attr(755,root,root) %{dracutlibdir}/modules.d/01bash/*.sh
+%dir %{dracutlibdir}/modules.d/03modsign
+%attr(755,root,root) %{dracutlibdir}/modules.d/03modsign/*.sh
 %dir %{dracutlibdir}/modules.d/03rescue
 %attr(755,root,root) %{dracutlibdir}/modules.d/03rescue/module-setup.sh
 %dir %{dracutlibdir}/modules.d/04watchdog
@@ -279,6 +283,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
 %dir %{dracutlibdir}/modules.d/80cms
 %attr(755,root,root) %{dracutlibdir}/modules.d/80cms/*.sh
+%dir %{dracutlibdir}/modules.d/90bcache
+%attr(755,root,root) %{dracutlibdir}/modules.d/90bcache/module-setup.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
 %{dracutlibdir}/modules.d/90btrfs/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh

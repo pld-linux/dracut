@@ -1,13 +1,13 @@
---- dracut-020/modules.d/50plymouth/plymouth-populate-initrd.sh~	2012-08-09 13:49:07.894845601 +0200
-+++ dracut-020/modules.d/50plymouth/plymouth-populate-initrd.sh	2012-08-09 13:50:43.211508906 +0200
-@@ -6,9 +6,10 @@
+--- dracut-032/modules.d/50plymouth/plymouth-populate-initrd.sh.orig	2013-08-26 21:31:12.615640993 +0200
++++ dracut-032/modules.d/50plymouth/plymouth-populate-initrd.sh	2013-08-27 15:35:36.416243854 +0200
+@@ -5,9 +5,10 @@
  PLYMOUTH_THEME=$(plymouth-set-default-theme)
  
- dracut_install plymouthd plymouth \
+ inst_multiple plymouthd plymouth \
 -    "${PLYMOUTH_LOGO_FILE}" \
      /etc/os-release
  
-+[[ -f "${PLYMOUTH_LOGO_FILE}" ]] && dracut_install "${PLYMOUTH_LOGO_FILE}"
++[[ -f "${PLYMOUTH_LOGO_FILE}" ]] && inst_multiple "${PLYMOUTH_LOGO_FILE}"
 +
  mkdir -m 0755 -p "${initdir}/usr/share/plymouth"
  
