@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	034
-Release:	2
+Version:	036
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	http://ftp.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	8afdca5b30b98ae8ce603fbb7894068e
+# Source0-md5:	cae7b6252aacca350f3791f15edb5840
 Source1:	pld.conf
 Patch1:		plymouth-libexec.patch
 Patch2:		os-release.patch
@@ -14,7 +14,6 @@ Patch3:		plymouth-logo.patch
 Patch4:		arch-libdir.patch
 Patch5:		systemd-paths.patch
 Patch6:		prelink-libs.patch
-Patch7:		dracut-luks_password_wait.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -195,7 +194,6 @@ Bashowe dopełnianie składni dla polecenia dracut.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
@@ -321,10 +319,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/95dasd/*.sh
 %dir %{dracutlibdir}/modules.d/95dasd_mod
 %attr(755,root,root) %{dracutlibdir}/modules.d/95dasd_mod/*.sh
+%dir %{dracutlibdir}/modules.d/95dasd_rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/95dasd_rules/*.sh
+%dir %{dracutlibdir}/modules.d/95fcoe-uefi
+%attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe-uefi/*.sh
 %dir %{dracutlibdir}/modules.d/95fstab-sys
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fstab-sys/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp
 %attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
+%dir %{dracutlibdir}/modules.d/95zfcp_rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp_rules/*.sh
 %dir %{dracutlibdir}/modules.d/95terminfo
 %attr(755,root,root) %{dracutlibdir}/modules.d/95terminfo/*.sh
 %dir %{dracutlibdir}/modules.d/95udev-rules
@@ -368,15 +372,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/99img-lib/*.sh
 %dir %{dracutlibdir}/modules.d/99shutdown
 %attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
+%dir %{dracutlibdir}/modules.d/99uefi-lib
+%attr(755,root,root) %{dracutlibdir}/modules.d/99uefi-lib/*.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-version.sh
+%attr(755,root,root) %{dracutlibdir}/skipcpio
 
 %dir /var/lib/initramfs
 %{systemdunitdir}/*.service
 %{systemdunitdir}/*/*.service
 %{_mandir}/man1/lsinitrd.1*
 %{_mandir}/man5/dracut.conf.5*
-%{_mandir}/man7/dracut.kernel.7*
 %{_mandir}/man7/dracut.cmdline.7*
+%{_mandir}/man7/dracut.kernel.7*
+%{_mandir}/man7/dracut.modules.7*
 %{_mandir}/man8/dracut.8*
 %{_mandir}/man8/dracut-cmdline.service.8*
 %{_mandir}/man8/dracut-initqueue.service.8*
