@@ -1,15 +1,15 @@
 --- dracut-034/dracut.sh.orig	2013-10-20 14:13:51.740264092 +0200
 +++ dracut-034/dracut.sh	2013-10-20 14:29:50.300223867 +0200
 @@ -1266,10 +1266,10 @@
-     if [[ $UID = 0 ]] && [[ $PRELINK_BIN ]]; then
-         if [[ $DRACUT_FIPS_MODE ]]; then
-             dinfo "*** Installing prelink files ***"
--            inst_multiple -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf /etc/prelink.cache
-+            inst_multiple -l -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf /etc/prelink.cache
-         else
-             dinfo "*** Pre-linking files ***"
--            inst_multiple -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
-+            inst_multiple -l -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
-             chroot "$initdir" "$PRELINK_BIN" -a
-             rm -f -- "$initdir/$PRELINK_BIN"
-             rm -fr -- "$initdir"/etc/prelink.*
+ if [[ $UID = 0 ]] && [[ $PRELINK_BIN ]]; then
+     if [[ $DRACUT_FIPS_MODE ]]; then
+         dinfo "*** Installing prelink files ***"
+-        inst_multiple -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf /etc/prelink.cache
++        inst_multiple -l -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf /etc/prelink.cache
+     elif [[ $do_prelink == yes ]]; then
+         dinfo "*** Pre-linking files ***"
+-        inst_multiple -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
++        inst_multiple -l -o prelink /etc/prelink.conf /etc/prelink.conf.d/*.conf
+         chroot "$initdir" "$PRELINK_BIN" -a
+         rm -f -- "$initdir/$PRELINK_BIN"
+         rm -fr -- "$initdir"/etc/prelink.*

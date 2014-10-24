@@ -1,18 +1,17 @@
---- dracut-027/modules.d/50plymouth/module-setup.sh.wiget	2013-03-27 22:56:48.855517817 +0100
-+++ dracut-027/modules.d/50plymouth/module-setup.sh	2013-03-27 22:59:42.251657247 +0100
-@@ -12,12 +12,12 @@ depends() {
- }
+diff -urN dracut-040.orig/modules.d/50plymouth/module-setup.sh dracut-040/modules.d/50plymouth/module-setup.sh
+--- dracut-040.orig/modules.d/50plymouth/module-setup.sh	2014-10-24 17:41:12.966283303 +0200
++++ dracut-040/modules.d/50plymouth/module-setup.sh	2014-10-24 17:42:58.112954942 +0200
+@@ -13,11 +13,11 @@
  
+ # called by dracut
  install() {
--    if grep -q nash /usr/libexec/plymouth/plymouth-populate-initrd \
--        || [ ! -x /usr/libexec/plymouth/plymouth-populate-initrd ]; then
-+    if grep -q nash /usr/@lib@/plymouth/plymouth-populate-initrd \
-+        || [ ! -x /usr/@lib@/plymouth/plymouth-populate-initrd ]; then
-         . "$moddir"/plymouth-populate-initrd.sh
-     else
-         PLYMOUTH_POPULATE_SOURCE_FUNCTIONS="$dracutfunctions" \
--            /usr/libexec/plymouth/plymouth-populate-initrd -t "$initdir"
-+            /usr/@lib@/plymouth/plymouth-populate-initrd -t "$initdir"
+-    PKGLIBDIR="/usr/lib/plymouth"
++    PKGLIBDIR="/usr/@lib@/plymouth"
+     if type -P dpkg-architecture &>/dev/null; then
+         PKGLIBDIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/plymouth"
      fi
+-    [ -x /usr/libexec/plymouth/plymouth-populate-initrd ] && PKGLIBDIR="/usr/libexec/plymouth"
++    [ -x /usr/@lib@/plymouth/plymouth-populate-initrd ] && PKGLIBDIR="/usr/@lib@/plymouth"
  
-     inst_hook emergency 50 "$moddir"/plymouth-emergency.sh
+     if grep -q nash ${PKGLIBDIR}/plymouth-populate-initrd \
+         || [ ! -x ${PKGLIBDIR}/plymouth-populate-initrd ]; then
