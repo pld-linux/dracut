@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	040
+Version:	041
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	e961da9566b3c0dd838f737f879cf339
+# Source0-md5:	ccde6cd8ef36b883b68d8e5954369a32
 Source1:	pld.conf
 Patch1:		plymouth-libexec.patch
 Patch2:		os-release.patch
@@ -304,6 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/90mdraid/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90mdraid/*.sh
 %dir %{dracutlibdir}/modules.d/90multipath
+%attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.service
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
@@ -358,6 +359,7 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/98syslog/rsyslog.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/98syslog/*.sh
 %dir %{dracutlibdir}/modules.d/98systemd
+%{dracutlibdir}/modules.d/98systemd/*.conf
 %{dracutlibdir}/modules.d/98systemd/*.service
 %{dracutlibdir}/modules.d/98systemd/*.target
 %attr(755,root,root) %{dracutlibdir}/modules.d/98systemd/*.sh
