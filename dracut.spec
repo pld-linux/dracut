@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	043
+Version:	044
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	85de75ddf00962e7bb0ae387f05794e5
+# Source0-md5:	fbb8b6aea24c2f7d328021bbf11788fd
 Source1:	pld.conf
 Patch1:		plymouth-libexec.patch
 Patch2:		os-release.patch
@@ -251,6 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d
 %attr(755,root,root) %{dracutlibdir}/dracut-functions.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-functions
+%attr(755,root,root) %{dracutlibdir}/dracut-init.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-logger.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-initramfs-restore
 %dir %{dracutlibdir}/modules.d/00bash
