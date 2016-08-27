@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	044
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
@@ -92,12 +92,12 @@ Requires:	bridge-utils
 Requires:	dhcp-client
 Requires:	iproute2
 Requires:	iputils-arping
-Requires:	iputils-ping
 Requires:	nbd
 Requires:	net-tools
 Requires:	nfs-utils-clients
 Requires:	open-iscsi
 Requires:	openssh-clients
+Requires:	ping
 Requires:	rpcbind
 Suggests:	curl
 
