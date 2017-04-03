@@ -9,13 +9,3 @@
  
  mkdir -m 0755 -p "${initdir}/usr/share/plymouth"
  
---- dracut-044/modules.d/99base/module-setup.sh	2015-11-25 15:22:28.000000000 +0200
-+++ dracut-044/modules.d/99base/module-setup.sh	2016-04-27 13:06:21.324369221 +0300
-@@ -77,6 +77,7 @@
-     VERSION_ID=$DRACUT_VERSION
-     ANSI_COLOR="0;34"
- 
-+    [ -e "${initdir}/usr/lib" ] || mkdir -m 0755 -p ${initdir}/usr/lib
-     {
-         echo NAME=\"$NAME\"
-         echo VERSION=\"$VERSION\"
