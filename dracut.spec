@@ -19,7 +19,9 @@ BuildRequires:	asciidoc
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
+BuildRequires:	kmod-devel >= 15
 BuildRequires:	libxslt-progs
+BuildRequires:	pkgconfig
 Requires:	bash
 Requires:	coreutils
 Requires:	cpio
