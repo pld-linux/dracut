@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	045
+Version:	046
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	70d8d222dcdd00b9ee3e05e3bc1d9435
+# Source0-md5:	224b67e9bc079e013541a74e85659188
 Source1:	pld.conf
 Patch1:		plymouth-libexec.patch
 Patch2:		os-release.patch
@@ -288,6 +288,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
 %dir %{dracutlibdir}/modules.d/80cms
 %attr(755,root,root) %{dracutlibdir}/modules.d/80cms/*.sh
+%dir %{dracutlibdir}/modules.d/80lvmmerge
+%{dracutlibdir}/modules.d/80lvmmerge/README.md
+%attr(755,root,root) %{dracutlibdir}/modules.d/80lvmmerge/*.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
 %{dracutlibdir}/modules.d/90btrfs/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh
@@ -304,6 +307,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/90dmsquash-live
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live/*.sh
 %{dracutlibdir}/modules.d/90dmsquash-live/checkisomd5@.service
+%dir %{dracutlibdir}/modules.d/90dmsquash-live-ntfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live-ntfs/*.sh
 %dir %{dracutlibdir}/modules.d/90kernel-modules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-modules/*.sh
 %dir %{dracutlibdir}/modules.d/90lvm
@@ -315,9 +320,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/90multipath
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.service
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
+%dir %{dracutlibdir}/modules.d/90multipath-hostonly
+%attr(755,root,root) %{dracutlibdir}/modules.d/90multipath-hostonly/*.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
+%{dracutlibdir}/modules.d/91crypt-gpg/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
 %dir %{dracutlibdir}/modules.d/95debug
 %attr(755,root,root) %{dracutlibdir}/modules.d/95debug/*.sh
