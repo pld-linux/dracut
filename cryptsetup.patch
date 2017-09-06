@@ -1,0 +1,21 @@
+--- dracut-046/modules.d/90crypt/module-setup.sh~	2017-08-11 13:44:06.000000000 +0200
++++ dracut-046/modules.d/90crypt/module-setup.sh	2017-09-06 02:04:41.264111459 +0200
+@@ -4,7 +4,7 @@
+ check() {
+     local _rootdev
+     # if cryptsetup is not installed, then we cannot support encrypted devices.
+-    require_any_binary $systemdutildir/systemd-cryptsetup cryptsetup || return 1
++    require_binaries $systemdutildir/systemd-cryptsetup cryptsetup || return 1
+ 
+     [[ $hostonly ]] || [[ $mount_needs ]] && {
+         for fs in "${host_fs_types[@]}"; do
+@@ -58,8 +58,8 @@
+     fi
+ 
+     inst_hook cmdline 30 "$moddir/parse-crypt.sh"
++    inst_multiple cryptsetup rmdir readlink umount
+     if ! dracut_module_included "systemd"; then
+-        inst_multiple cryptsetup rmdir readlink umount
+         inst_script "$moddir"/cryptroot-ask.sh /sbin/cryptroot-ask
+         inst_script "$moddir"/probe-keydev.sh /sbin/probe-keydev
+         inst_hook cmdline 10 "$moddir/parse-keydev.sh"
