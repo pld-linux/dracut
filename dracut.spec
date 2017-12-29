@@ -64,6 +64,7 @@ Suggests:	syslogdaemon
 Suggests:	xfsprogs
 Suggests:	xz
 Conflicts:	kmod < 6
+Conflicts:	plymounth < 0.9.3-1
 Conflicts:	systemd < 1:199
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
