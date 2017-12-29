@@ -1,7 +1,7 @@
 diff -urN dracut-040.orig/modules.d/50plymouth/module-setup.sh dracut-040/modules.d/50plymouth/module-setup.sh
 --- dracut-040.orig/modules.d/50plymouth/module-setup.sh	2014-10-24 17:41:12.966283303 +0200
 +++ dracut-040/modules.d/50plymouth/module-setup.sh	2014-10-24 17:42:58.112954942 +0200
-@@ -13,11 +13,11 @@
+@@ -13,7 +13,7 @@
  
  # called by dracut
  install() {
@@ -10,8 +10,3 @@ diff -urN dracut-040.orig/modules.d/50plymouth/module-setup.sh dracut-040/module
      if type -P dpkg-architecture &>/dev/null; then
          PKGLIBDIR="/usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/plymouth"
      fi
--    [ -x /usr/libexec/plymouth/plymouth-populate-initrd ] && PKGLIBDIR="/usr/libexec/plymouth"
-+    [ -x /usr/@lib@/plymouth/plymouth-populate-initrd ] && PKGLIBDIR="/usr/@lib@/plymouth"
- 
-     if grep -q nash ${PKGLIBDIR}/plymouth-populate-initrd \
-         || [ ! -x ${PKGLIBDIR}/plymouth-populate-initrd ]; then
