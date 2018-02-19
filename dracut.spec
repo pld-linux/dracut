@@ -1,26 +1,25 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	046
-Release:	3
+Version:	047
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	224b67e9bc079e013541a74e85659188
+# Source0-md5:	62d474ccb8411ec4a76ba5c79bc1093a
 Source1:	pld.conf
-Patch1:		plymouth-libdir.patch
-Patch2:		os-release.patch
-Patch3:		plymouth-logo.patch
-Patch4:		arch-libdir.patch
-Patch5:		systemd-paths.patch
-Patch6:		prelink-libs.patch
-Patch7:		cryptsetup.patch
+Patch0:		plymouth-libdir.patch
+Patch1:		os-release.patch
+Patch2:		arch-libdir.patch
+Patch3:		systemd-paths.patch
+Patch4:		prelink-libs.patch
+Patch5:		cryptsetup.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
 BuildRequires:	docbook-dtd45-xml
 BuildRequires:	docbook-style-xsl
-BuildRequires:	kmod-devel >= 15
+BuildRequires:	kmod-devel >= 23
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
 Requires:	bash
@@ -32,6 +31,7 @@ Requires:	glibc-misc
 Requires:	grep
 Requires:	gzip
 Requires:	hardlink
+Requires:	kmod >= 23
 Requires:	sed
 Requires:	systemd-units
 Requires:	udev
@@ -192,13 +192,12 @@ Bashowe dopełnianie składni dla polecenia dracut.
 
 %prep
 %setup -q
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
-%patch7 -p1
 
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
@@ -267,8 +266,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
 %dir %{dracutlibdir}/modules.d/00systemd
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
-%dir %{dracutlibdir}/modules.d/00systemd-bootchart
-%attr(755,root,root) %{dracutlibdir}/modules.d/00systemd-bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/01systemd-initrd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-initrd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/03modsign
@@ -294,13 +291,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/80lvmmerge
 %{dracutlibdir}/modules.d/80lvmmerge/README.md
 %attr(755,root,root) %{dracutlibdir}/modules.d/80lvmmerge/*.sh
+%dir %{dracutlibdir}/modules.d/81cio_ignore
+%attr(755,root,root) %{dracutlibdir}/modules.d/81cio_ignore/*.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
 %{dracutlibdir}/modules.d/90btrfs/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90btrfs/*.sh
 %dir %{dracutlibdir}/modules.d/90crypt
 %attr(755,root,root) %{dracutlibdir}/modules.d/90crypt/*.sh
-%dir %{dracutlibdir}/modules.d/91crypt-loop
-%attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-loop/*.sh
 %dir %{dracutlibdir}/modules.d/90dm
 %{dracutlibdir}/modules.d/90dm/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dm/*.sh
@@ -330,8 +327,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %{dracutlibdir}/modules.d/91crypt-gpg/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
+%dir %{dracutlibdir}/modules.d/91crypt-loop
+%attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-loop/*.sh
+%dir %{dracutlibdir}/modules.d/91zipl
+%attr(755,root,root) %{dracutlibdir}/modules.d/91zipl/*.sh
+%dir %{dracutlibdir}/modules.d/95dcssblk
+%attr(755,root,root) %{dracutlibdir}/modules.d/95dcssblk/*.sh
 %dir %{dracutlibdir}/modules.d/95debug
 %attr(755,root,root) %{dracutlibdir}/modules.d/95debug/*.sh
+%dir %{dracutlibdir}/modules.d/95lunmask
+%attr(755,root,root) %{dracutlibdir}/modules.d/95lunmask/*.sh
 %dir %{dracutlibdir}/modules.d/95resume
 %attr(755,root,root) %{dracutlibdir}/modules.d/95resume/*.sh
 %dir %{dracutlibdir}/modules.d/95rootfs-block
@@ -408,6 +413,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_mandir}/man1/lsinitrd.1*
 %{_mandir}/man5/dracut.conf.5*
+%{_mandir}/man7/dracut.bootup.7*
 %{_mandir}/man7/dracut.cmdline.7*
 %{_mandir}/man7/dracut.kernel.7*
 %{_mandir}/man7/dracut.modules.7*
@@ -421,7 +427,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/dracut-pre-udev.service.8*
 %{_mandir}/man8/dracut-shutdown.service.8*
 %{_mandir}/man8/mkinitrd.8*
-%{_mandir}/man7/dracut.bootup.7.gz
 
 #/usr/lib/kernel/install.d/50-dracut.install
 #/usr/lib/kernel/install.d/51-dracut-rescue.install

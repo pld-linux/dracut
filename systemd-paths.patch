@@ -1,11 +1,11 @@
---- dracut-043/modules.d/98dracut-systemd/emergency.service.wiget	2013-03-27 23:05:57.984373121 +0100
-+++ dracut-043/modules.d/98dracut-systemd/emergency.service	2013-03-27 23:11:39.569991251 +0100
-@@ -17,7 +17,7 @@ Wants=systemd-vconsole-setup.service
- Environment=HOME=/
+--- dracut-047/modules.d/98dracut-systemd/emergency.service.orig	2018-02-19 19:33:03.992393899 +0100
++++ dracut-047/modules.d/98dracut-systemd/emergency.service	2018-02-19 19:34:10.421940966 +0100
+@@ -16,7 +16,7 @@
+ Environment=NEWROOT=/sysroot
  WorkingDirectory=/
  ExecStart=/bin/dracut-emergency
 -ExecStopPost=-/usr/bin/systemctl --fail --no-block default
 +ExecStopPost=-/bin/systemctl --fail --no-block default
- Type=oneshot
+ Type=idle
  StandardInput=tty-force
  StandardOutput=inherit
