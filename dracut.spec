@@ -199,7 +199,7 @@ Bashowe dopełnianie składni dla polecenia dracut.
 %patch4 -p1
 %patch5 -p1
 
-%{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/50plymouth/module-setup.sh
+%{__sed} -i -e 's,@libexecdir@,%{_libexecdir},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
 find modules.d -name '*.orig' | xargs -r %{__rm}
 
@@ -225,7 +225,7 @@ install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
 install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
 install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 
-echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT/%{dracutlibdir}/dracut-version.sh
+echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT%{dracutlibdir}/dracut-version.sh
 
 # create compat symlink
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
