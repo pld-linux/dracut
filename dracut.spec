@@ -1,20 +1,18 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	047
-Release:	3
+Version:	048
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	62d474ccb8411ec4a76ba5c79bc1093a
+# Source0-md5:	a9705d3c32c7523428f6e5e3e17244f8
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
 Patch2:		arch-libdir.patch
 Patch3:		systemd-paths.patch
-Patch4:		prelink-libs.patch
-Patch5:		cryptsetup.patch
-Patch6:		ext4-crc32c.patch
+Patch4:		cryptsetup.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -122,6 +120,7 @@ Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	hmaccalc
 Requires:	nss-softokn-freebl
+Obsoletes:	dracut-fips-aesni
 
 %description fips
 This package requires everything which is needed to build an all
@@ -131,22 +130,6 @@ purpose initramfs with dracut, which does an integrity check.
 Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
 dracuta obrazów initramfs dowolnego przeznaczenia, wykonujących
 kontrolę własnej spójności.
-
-%package fips-aesni
-Summary:	Dracut modules to build a dracut initramfs with an integrity check with aesni-intel
-Summary(pl.UTF-8):	Moduły Dracuta do tworzenia initramfs z kontrolą spójności przez aesni-intel
-Group:		Base
-Requires:	%{name}-fips = %{version}-%{release}
-
-%description fips-aesni
-This package requires everything which is needed to build an all
-purpose initramfs with dracut, which does an integrity check and adds
-the aesni-intel kernel module.
-
-%description fips-aesni -l pl.UTF-8
-Ten pakiet zawiera wszystko, co potrzebne do tworzenia przy użyciu
-dracuta obrazów initramfs dowolnego przeznaczenia wykonujących
-kontrolę własnej spójności z dodanym modułem jądra aesni-intel.
 
 %package caps
 Summary:	Dracut modules to build a dracut initramfs which drops capabilities
@@ -198,8 +181,6 @@ Bashowe dopełnianie składni dla polecenia dracut.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %{__sed} -i -e 's,@libexecdir@,%{_libexecdir},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
@@ -322,10 +303,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/90multipath
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.service
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
-%dir %{dracutlibdir}/modules.d/90multipath-hostonly
-%attr(755,root,root) %{dracutlibdir}/modules.d/90multipath-hostonly/*.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
+%dir %{dracutlibdir}/modules.d/90stratis
+%attr(755,root,root) %{dracutlibdir}/modules.d/90stratis/*.service
+%attr(755,root,root) %{dracutlibdir}/modules.d/90stratis/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %{dracutlibdir}/modules.d/91crypt-gpg/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
@@ -353,6 +335,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe-uefi/*.sh
 %dir %{dracutlibdir}/modules.d/95fstab-sys
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fstab-sys/*.sh
+%dir %{dracutlibdir}/modules.d/95qeth_rules
+%attr(755,root,root) %{dracutlibdir}/modules.d/95qeth_rules/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp
 %attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp_rules
@@ -470,11 +454,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/01fips
 %attr(755,root,root) %{dracutlibdir}/modules.d/01fips/*.sh
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/40-fips.conf
-
-%files fips-aesni
-%defattr(644,root,root,755)
-%dir %{dracutlibdir}/modules.d/02fips-aesni
-%attr(755,root,root) %{dracutlibdir}/modules.d/02fips-aesni/*.sh
 
 %files caps
 %defattr(644,root,root,755)
