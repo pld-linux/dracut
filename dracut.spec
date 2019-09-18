@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	048
+Version:	049
 Release:	1
 License:	GPL v2+
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	a9705d3c32c7523428f6e5e3e17244f8
+Source0:	https://git.kernel.org/pub/scm/boot/dracut/dracut.git/snapshot/%{name}-%{version}.tar.gz
+# Source0-md5:	614fc43ab6074fb7c48c0d38979dc9df
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -249,6 +249,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
 %dir %{dracutlibdir}/modules.d/00systemd
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/00warpclock
+%attr(755,root,root) %{dracutlibdir}/modules.d/00warpclock/*.sh
 %dir %{dracutlibdir}/modules.d/01systemd-initrd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-initrd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/03modsign
@@ -294,6 +296,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live-ntfs/*.sh
 %dir %{dracutlibdir}/modules.d/90kernel-modules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-modules/*.sh
+%dir %{dracutlibdir}/modules.d/90kernel-modules-extra
+%attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-modules-extra/*.sh
 %dir %{dracutlibdir}/modules.d/90lvm
 %{dracutlibdir}/modules.d/90lvm/*.rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/90lvm/*.sh
@@ -384,6 +388,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/99img-lib/*.sh
 %dir %{dracutlibdir}/modules.d/99shutdown
 %attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
+%dir %{dracutlibdir}/modules.d/99squash
+%attr(755,root,root) %{dracutlibdir}/modules.d/99squash/*.sh
+%{dracutlibdir}/modules.d/99squash/squash-mnt-clear.service
 %dir %{dracutlibdir}/modules.d/99uefi-lib
 %attr(755,root,root) %{dracutlibdir}/modules.d/99uefi-lib/*.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-version.sh
@@ -421,8 +428,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %dir %{dracutlibdir}/modules.d/02systemd-networkd
 %attr(755,root,root) %{dracutlibdir}/modules.d/02systemd-networkd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/35network-legacy
+%{dracutlibdir}/modules.d/35network-legacy/dhclient.conf
+%attr(755,root,root) %{dracutlibdir}/modules.d/35network-legacy/*.sh
+%dir %{dracutlibdir}/modules.d/35network-manager
+%attr(755,root,root) %{dracutlibdir}/modules.d/35network-manager/*.sh
 %dir %{dracutlibdir}/modules.d/40network
-%{dracutlibdir}/modules.d/40network/dhclient.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/40network/*.sh
 %dir %{dracutlibdir}/modules.d/45ifcfg
 %attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
