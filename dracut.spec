@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	049
+Version:	050
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://git.kernel.org/pub/scm/boot/dracut/dracut.git/snapshot/%{name}-%{version}.tar.gz
-# Source0-md5:	614fc43ab6074fb7c48c0d38979dc9df
+# Source0-md5:	9df6a17bcbebb4296de9c68ea0a1c9c8
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -247,6 +247,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/00dash
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
+%dir %{dracutlibdir}/modules.d/00mksh
+%attr(755,root,root) %{dracutlibdir}/modules.d/00mksh/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00systemd
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00warpclock
@@ -261,6 +263,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog/*.sh
 %dir %{dracutlibdir}/modules.d/05busybox
 %attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
+%dir %{dracutlibdir}/modules.d/06rngd
+%attr(755,root,root) %{dracutlibdir}/modules.d/06rngd/module-setup.sh
+%{dracutlibdir}/modules.d/06rngd/rngd.service
 %dir %{dracutlibdir}/modules.d/10i18n
 %{dracutlibdir}/modules.d/10i18n/README
 %{dracutlibdir}/modules.d/10i18n/*.rules
