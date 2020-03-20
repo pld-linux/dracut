@@ -213,6 +213,10 @@ echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT%{dracutlibdir}/drac
 # create compat symlink
 ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
 
+# remove foreign arch modules
+%ifnarch ppc ppc64
+%{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/90ppcmac
+%endif
 # remove gentoo specific modules
 %{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/50gensplash
 # SuSE specific man page
@@ -448,6 +452,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90kernel-network-modules/module-setup.sh
 %dir %{dracutlibdir}/modules.d/90livenet
 %attr(755,root,root) %{dracutlibdir}/modules.d/90livenet/*.sh
+%ifarch ppc ppc64
+%dir %{dracutlibdir}/modules.d/90ppcmac
+%attr(755,root,root) %{dracutlibdir}/modules.d/90ppcmac/*.sh
+%endif
 %dir %{dracutlibdir}/modules.d/90qemu-net
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu-net/*.sh
 %dir %{dracutlibdir}/modules.d/95cifs
