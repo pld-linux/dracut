@@ -2,7 +2,7 @@ Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
 Version:	050
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Base
 Source0:	https://git.kernel.org/pub/scm/boot/dracut/dracut.git/snapshot/%{name}-%{version}.tar.gz
@@ -238,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/mkinitrd
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
+%dir %{dracutlibdir}/dracut.conf.d
 %attr(755,root,root) %{dracutlibdir}/dracut-install
 %dir %{dracutlibdir}/modules.d
 %attr(755,root,root) %{dracutlibdir}/dracut-functions.sh
