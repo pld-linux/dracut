@@ -1,19 +1,18 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	050
-Release:	3
+Version:	051
+Release:	1
 License:	GPL v2+
 Group:		Base
-Source0:	https://git.kernel.org/pub/scm/boot/dracut/dracut.git/snapshot/%{name}-%{version}.tar.gz
-# Source0-md5:	9df6a17bcbebb4296de9c68ea0a1c9c8
+Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
+# Source0-md5:	f4f1aa95ac99494ac80e24fffcc9db07
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
 Patch2:		arch-libdir.patch
 Patch3:		systemd-paths.patch
 Patch4:		cryptsetup.patch
-Patch5:		non_existent_systemd_units.patch
 URL:		https://dracut.wiki.kernel.org/
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -22,6 +21,9 @@ BuildRequires:	docbook-style-xsl
 BuildRequires:	kmod-devel >= 23
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires:	bash
 Requires:	coreutils
 Requires:	cpio
@@ -168,6 +170,7 @@ Summary(pl.UTF-8):	Bashowe dopełnianie składni dla polecenia dracut
 Group:		Applications/Shells
 Requires:	%{name} = %{version}
 Requires:	bash-completion >= 2.0
+%{?noarchpackage}
 
 %description -n bash-completion-dracut
 bash-completion for dracut.
@@ -182,7 +185,6 @@ Bashowe dopełnianie składni dla polecenia dracut.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %{__sed} -i -e 's,@libexecdir@,%{_libexecdir},g' modules.d/50plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
@@ -268,8 +270,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/03rescue/module-setup.sh
 %dir %{dracutlibdir}/modules.d/04watchdog
 %attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog/*.sh
+%dir %{dracutlibdir}/modules.d/04watchdog-modules
+%attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog-modules/module-setup.sh
 %dir %{dracutlibdir}/modules.d/05busybox
 %attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
+%dir %{dracutlibdir}/modules.d/06dbus
+%attr(755,root,root) %{dracutlibdir}/modules.d/06dbus/module-setup.sh
 %dir %{dracutlibdir}/modules.d/06rngd
 %attr(755,root,root) %{dracutlibdir}/modules.d/06rngd/module-setup.sh
 %{dracutlibdir}/modules.d/06rngd/rngd.service
@@ -319,11 +325,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/90multipath
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.service
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
+%dir %{dracutlibdir}/modules.d/90nvdimm
+%attr(755,root,root) %{dracutlibdir}/modules.d/90nvdimm/module-setup.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
-%dir %{dracutlibdir}/modules.d/90stratis
-%attr(755,root,root) %{dracutlibdir}/modules.d/90stratis/*.service
-%attr(755,root,root) %{dracutlibdir}/modules.d/90stratis/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %{dracutlibdir}/modules.d/91crypt-gpg/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
@@ -351,6 +356,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fcoe-uefi/*.sh
 %dir %{dracutlibdir}/modules.d/95fstab-sys
 %attr(755,root,root) %{dracutlibdir}/modules.d/95fstab-sys/*.sh
+%dir %{dracutlibdir}/modules.d/95nvmf
+%attr(755,root,root) %{dracutlibdir}/modules.d/95nvmf/*.sh
+%{dracutlibdir}/modules.d/95nvmf/95-nvmf-initqueue.rules
 %dir %{dracutlibdir}/modules.d/95qeth_rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/95qeth_rules/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp
@@ -398,6 +406,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/99fs-lib/*.sh
 %dir %{dracutlibdir}/modules.d/99img-lib
 %attr(755,root,root) %{dracutlibdir}/modules.d/99img-lib/*.sh
+%dir %{dracutlibdir}/modules.d/99memstrack
+%attr(755,root,root) %{dracutlibdir}/modules.d/99memstrack/*.sh
+%{dracutlibdir}/modules.d/99memstrack/memstrack.service
 %dir %{dracutlibdir}/modules.d/99shutdown
 %attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
 %dir %{dracutlibdir}/modules.d/99squash
@@ -445,6 +456,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-legacy/*.sh
 %dir %{dracutlibdir}/modules.d/35network-manager
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-manager/*.sh
+%dir %{dracutlibdir}/modules.d/35network-wicked
+%attr(755,root,root) %{dracutlibdir}/modules.d/35network-wicked/*.sh
 %dir %{dracutlibdir}/modules.d/40network
 %attr(755,root,root) %{dracutlibdir}/modules.d/40network/*.sh
 %dir %{dracutlibdir}/modules.d/45ifcfg
