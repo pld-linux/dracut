@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	051
+Version:	052
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	f4f1aa95ac99494ac80e24fffcc9db07
+# Source0-md5:	b6caff8ab83fbe0b3b5492553dfa154c
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -202,7 +202,7 @@ find modules.d -name '*.orig' | xargs -r %{__rm}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
+install -d $RPM_BUILD_ROOT{/boot/dracut,/sbin} \
 	$RPM_BUILD_ROOT/var/{log,lib/{dracut/overlay,initramfs}}
 
 %{__make} install \
@@ -210,7 +210,6 @@ install -d $RPM_BUILD_ROOT{/boot/dracut,/etc/logrotate.d,/sbin} \
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
 install -p dracut.conf.d/fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
-install -p dracut.logrotate $RPM_BUILD_ROOT/etc/logrotate.d/dracut_log
 
 echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT%{dracutlibdir}/dracut-version.sh
 
@@ -231,11 +230,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS HACKING NEWS README* TODO dracut.html dracut.png dracut.svg
+%doc AUTHORS HACKING.md NEWS.md README* dracut.html dracut.png dracut.svg
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
-%config(noreplace) /etc/logrotate.d/dracut_log
 # compat symlink
 %attr(755,root,root) /sbin/dracut
 %attr(755,root,root) %{_bindir}/dracut
@@ -252,8 +250,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/dracut-initramfs-restore
 %dir %{dracutlibdir}/modules.d/00bash
 %attr(755,root,root) %{dracutlibdir}/modules.d/00bash/module-setup.sh
-%dir %{dracutlibdir}/modules.d/00bootchart
-%attr(755,root,root) %{dracutlibdir}/modules.d/00bootchart/*.sh
 %dir %{dracutlibdir}/modules.d/00dash
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
 %dir %{dracutlibdir}/modules.d/00mksh
@@ -262,8 +258,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00warpclock
 %attr(755,root,root) %{dracutlibdir}/modules.d/00warpclock/*.sh
+%dir %{dracutlibdir}/modules.d/01systemd-ask-password
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-ask-password/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-coredump
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-coredump/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-initrd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-initrd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-modules-load
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-modules-load/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-repart
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-repart/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-sysctl
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysctl/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-sysusers
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysusers/module-setup.sh
 %dir %{dracutlibdir}/modules.d/03modsign
 %attr(755,root,root) %{dracutlibdir}/modules.d/03modsign/*.sh
 %dir %{dracutlibdir}/modules.d/03rescue
@@ -274,11 +282,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog-modules/module-setup.sh
 %dir %{dracutlibdir}/modules.d/05busybox
 %attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
-%dir %{dracutlibdir}/modules.d/06dbus
-%attr(755,root,root) %{dracutlibdir}/modules.d/06dbus/module-setup.sh
+%dir %{dracutlibdir}/modules.d/06dbus-broker
+%attr(755,root,root) %{dracutlibdir}/modules.d/06dbus-broker/module-setup.sh
+%dir %{dracutlibdir}/modules.d/06dbus-daemon
+%attr(755,root,root) %{dracutlibdir}/modules.d/06dbus-daemon/module-setup.sh
 %dir %{dracutlibdir}/modules.d/06rngd
 %attr(755,root,root) %{dracutlibdir}/modules.d/06rngd/module-setup.sh
 %{dracutlibdir}/modules.d/06rngd/rngd.service
+%dir %{dracutlibdir}/modules.d/09dbus
+%attr(755,root,root) %{dracutlibdir}/modules.d/09dbus/module-setup.sh
 %dir %{dracutlibdir}/modules.d/10i18n
 %{dracutlibdir}/modules.d/10i18n/README
 %{dracutlibdir}/modules.d/10i18n/*.rules
