@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	052
+Version:	053
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	b6caff8ab83fbe0b3b5492553dfa154c
+# Source0-md5:	57fef8076b74cae675eecf2245a98a5a
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -468,6 +468,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-legacy/*.sh
 %dir %{dracutlibdir}/modules.d/35network-manager
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-manager/*.sh
+%{dracutlibdir}/modules.d/35network-manager/nm-run.service
 %dir %{dracutlibdir}/modules.d/35network-wicked
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-wicked/*.sh
 %dir %{dracutlibdir}/modules.d/40network
