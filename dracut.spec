@@ -170,7 +170,7 @@ Summary(pl.UTF-8):	Bashowe dopełnianie składni dla polecenia dracut
 Group:		Applications/Shells
 Requires:	%{name} = %{version}
 Requires:	bash-completion >= 2.0
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description -n bash-completion-dracut
 bash-completion for dracut.
