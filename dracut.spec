@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	053
+Version:	054
 Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	57fef8076b74cae675eecf2245a98a5a
+# Source0-md5:	3445436c128751a21cf88b0a18dc24a9
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -222,26 +222,24 @@ ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
 %endif
 # remove gentoo specific modules
 %{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/50gensplash
-# SuSE specific man page
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/man8/mkinitrd-suse.8
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS HACKING.md NEWS.md README* dracut.html dracut.png dracut.svg
+%doc AUTHORS NEWS.md README.md docs/HACKING.md dracut.html docs/dracut.png docs/dracut.svg
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
 # compat symlink
 %attr(755,root,root) /sbin/dracut
 %attr(755,root,root) %{_bindir}/dracut
-%attr(755,root,root) %{_bindir}/mkinitrd
 %attr(755,root,root) %{_bindir}/lsinitrd
 %dir %{dracutlibdir}
 %dir %{dracutlibdir}/dracut.conf.d
 %attr(755,root,root) %{dracutlibdir}/dracut-install
+%attr(755,root,root) %{dracutlibdir}/dracut-util
 %dir %{dracutlibdir}/modules.d
 %attr(755,root,root) %{dracutlibdir}/dracut-functions.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-functions
@@ -258,20 +256,47 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00warpclock
 %attr(755,root,root) %{dracutlibdir}/modules.d/00warpclock/*.sh
+%dir %{dracutlibdir}/modules.d/01systemd-ac-power
+%{dracutlibdir}/modules.d/01systemd-ac-power/99-initrd-power-targets.rules
+%{dracutlibdir}/modules.d/01systemd-ac-power/initrd-on-ac-power.target
+%{dracutlibdir}/modules.d/01systemd-ac-power/initrd-on-battery-power.target
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-ac-power/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-ask-password
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-ask-password/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-coredump
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-coredump/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-hostnamed
+%{dracutlibdir}/modules.d/01systemd-hostnamed/99-systemd-networkd-dracut.conf
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-hostnamed/module-setup.sh
+%{dracutlibdir}/modules.d/01systemd-hostnamed/org.freedesktop.hostname1_dracut.conf
+%{dracutlibdir}/modules.d/01systemd-hostnamed/systemd-hostname-dracut.conf
 %dir %{dracutlibdir}/modules.d/01systemd-initrd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-initrd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-journald
+%{dracutlibdir}/modules.d/01systemd-journald/initrd.conf
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-journald/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-ldconfig
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-ldconfig/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-modules-load
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-modules-load/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-repart
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-repart/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-rfkill
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-rfkill/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-sysctl
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysctl/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-sysext
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysext/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-sysusers
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysusers/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-timedated
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-timedated/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-tmpfiles
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-tmpfiles/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-udevd
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-udevd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-veritysetup
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-veritysetup/module-setup.sh
 %dir %{dracutlibdir}/modules.d/03modsign
 %attr(755,root,root) %{dracutlibdir}/modules.d/03modsign/*.sh
 %dir %{dracutlibdir}/modules.d/03rescue
@@ -301,6 +326,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/50drm/module-setup.sh
 %dir %{dracutlibdir}/modules.d/50plymouth
 %attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
+%dir %{dracutlibdir}/modules.d/62bluetooth
+%attr(755,root,root) %{dracutlibdir}/modules.d/62bluetooth/module-setup.sh
 %dir %{dracutlibdir}/modules.d/80cms
 %attr(755,root,root) %{dracutlibdir}/modules.d/80cms/*.sh
 %dir %{dracutlibdir}/modules.d/80lvmmerge
@@ -346,6 +373,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-loop
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-loop/*.sh
+%dir %{dracutlibdir}/modules.d/91tpm2-tss
+%attr(755,root,root) %{dracutlibdir}/modules.d/91tpm2-tss/module-setup.sh
 %dir %{dracutlibdir}/modules.d/91zipl
 %attr(755,root,root) %{dracutlibdir}/modules.d/91zipl/*.sh
 %dir %{dracutlibdir}/modules.d/95dcssblk
@@ -425,7 +454,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/99shutdown/*.sh
 %dir %{dracutlibdir}/modules.d/99squash
 %attr(755,root,root) %{dracutlibdir}/modules.d/99squash/*.sh
-%{dracutlibdir}/modules.d/99squash/squash-mnt-clear.service
 %dir %{dracutlibdir}/modules.d/99uefi-lib
 %attr(755,root,root) %{dracutlibdir}/modules.d/99uefi-lib/*.sh
 %attr(755,root,root) %{dracutlibdir}/dracut-version.sh
@@ -454,21 +482,30 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/dracut-pre-trigger.service.8*
 %{_mandir}/man8/dracut-pre-udev.service.8*
 %{_mandir}/man8/dracut-shutdown.service.8*
-%{_mandir}/man8/mkinitrd.8*
 
 #/usr/lib/kernel/install.d/50-dracut.install
 #/usr/lib/kernel/install.d/51-dracut-rescue.install
 
 %files network
 %defattr(644,root,root,755)
-%dir %{dracutlibdir}/modules.d/02systemd-networkd
-%attr(755,root,root) %{dracutlibdir}/modules.d/02systemd-networkd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/00systemd-network-management
+%attr(755,root,root) %{dracutlibdir}/modules.d/00systemd-network-management/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-networkd
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-networkd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-resolved
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-resolved/module-setup.sh
+%{dracutlibdir}/modules.d/01systemd-resolved/resolved-tmpfile-dracut.conf
+%dir %{dracutlibdir}/modules.d/01systemd-timesyncd
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-timesyncd/module-setup.sh
+%{dracutlibdir}/modules.d/01systemd-timesyncd/timesyncd-tmpfile-dracut.conf
 %dir %{dracutlibdir}/modules.d/35network-legacy
 %{dracutlibdir}/modules.d/35network-legacy/dhclient.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-legacy/*.sh
 %dir %{dracutlibdir}/modules.d/35network-manager
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-manager/*.sh
-%{dracutlibdir}/modules.d/35network-manager/nm-run.service
+%{dracutlibdir}/modules.d/35network-manager/initrd-no-auto-default.conf
+%{dracutlibdir}/modules.d/35network-manager/nm-initrd.service
+%{dracutlibdir}/modules.d/35network-manager/nm-wait-online-initrd.service
 %dir %{dracutlibdir}/modules.d/35network-wicked
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-wicked/*.sh
 %dir %{dracutlibdir}/modules.d/40network
