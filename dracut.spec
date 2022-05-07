@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	055
-Release:	4
+Version:	056
+Release:	1
 License:	GPL v2+
 Group:		Base
 Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	0931ba8ed792600ce335adb0b064fa11
+# Source0-md5:	17d51f3ccc3a3a790bab6da0355ca4c2
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -124,7 +124,7 @@ Group:		Base
 Requires:	%{name} = %{version}-%{release}
 Requires:	hmaccalc
 Requires:	nss-softokn-freebl
-Obsoletes:	dracut-fips-aesni
+Obsoletes:	dracut-fips-aesni < 048
 
 %description fips
 This package requires everything which is needed to build an all
@@ -274,6 +274,8 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/01systemd-hostnamed/systemd-hostname-dracut.conf
 %dir %{dracutlibdir}/modules.d/01systemd-initrd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-initrd/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-integritysetup
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-integritysetup/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-journald
 %{dracutlibdir}/modules.d/01systemd-journald/initrd.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-journald/module-setup.sh
@@ -291,6 +293,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysext/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-sysusers
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysusers/module-setup.sh
+%{dracutlibdir}/modules.d/01systemd-sysusers/sysusers-dracut.conf
 %dir %{dracutlibdir}/modules.d/01systemd-timedated
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-timedated/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-tmpfiles
@@ -375,6 +378,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-loop
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-loop/*.sh
+%dir %{dracutlibdir}/modules.d/91fido2
+%attr(755,root,root) %{dracutlibdir}/modules.d/91fido2/module-setup.sh
+%dir %{dracutlibdir}/modules.d/91pcsc
+%attr(755,root,root) %{dracutlibdir}/modules.d/91pcsc/module-setup.sh
+%{dracutlibdir}/modules.d/91pcsc/pcscd.service
+%{dracutlibdir}/modules.d/91pcsc/pcscd.socket
+%dir %{dracutlibdir}/modules.d/91pkcs11
+%attr(755,root,root) %{dracutlibdir}/modules.d/91pkcs11/module-setup.sh
 %dir %{dracutlibdir}/modules.d/91tpm2-tss
 %attr(755,root,root) %{dracutlibdir}/modules.d/91tpm2-tss/module-setup.sh
 %dir %{dracutlibdir}/modules.d/91zipl

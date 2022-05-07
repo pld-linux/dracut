@@ -1,10 +1,10 @@
---- dracut-033/modules.d/95resume/module-setup.sh.orig	2013-09-15 18:27:32.700252837 +0200
-+++ dracut-033/modules.d/95resume/module-setup.sh	2013-09-15 18:30:44.410244789 +0200
-@@ -17,7 +17,7 @@
+--- dracut-056/modules.d/95resume/module-setup.sh.orig	2022-05-07 19:58:20.569138739 +0200
++++ dracut-056/modules.d/95resume/module-setup.sh	2022-05-07 20:02:27.501134327 +0200
+@@ -50,7 +50,7 @@ install() {
      fi
  
      # Optional uswsusp support
--    for _bin in /usr/sbin/resume /usr/lib/suspend/resume /usr/lib/uswsusp/resume; do
+-    for _bin in /usr/sbin/resume /usr/lib/suspend/resume /usr/lib64/suspend/resume /usr/lib/uswsusp/resume /usr/lib64/uswsusp/resume; do
 +    for _bin in /usr/sbin/resume /usr/@lib@/suspend/resume /usr/@lib@/uswsusp/resume; do
          [[ -x $dracutsysrootdir${_bin} ]] && {
              inst "${_bin}" /usr/sbin/resume
