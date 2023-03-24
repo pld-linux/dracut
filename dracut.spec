@@ -1,12 +1,12 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	056
+Version:	059
 Release:	1
 License:	GPL v2+
 Group:		Base
-Source0:	https://www.kernel.org/pub/linux/utils/boot/dracut/%{name}-%{version}.tar.xz
-# Source0-md5:	17d51f3ccc3a3a790bab6da0355ca4c2
+Source0:	https://github.com/dracutdevs/dracut/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	bce69baf6f633ecf84dea7e3bb63dd32
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch1:		os-release.patch
@@ -23,8 +23,6 @@ BuildRequires:	kmod-devel >= 23
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.752
-BuildRequires:	tar >= 1:1.22
-BuildRequires:	xz
 Requires:	bash
 Requires:	coreutils
 Requires:	cpio
@@ -222,8 +220,9 @@ ln -s %{_bindir}/dracut $RPM_BUILD_ROOT/sbin/dracut
 %ifnarch ppc ppc64
 %{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/90ppcmac
 %endif
-# remove gentoo specific modules
-%{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/50gensplash
+
+# modules used by dracut tests
+%{__rm} -r $RPM_BUILD_ROOT%{dracutlibdir}/modules.d/80test{,-makeroot,-root}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -283,6 +282,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-ldconfig/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-modules-load
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-modules-load/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-pcrphase
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-pcrphase/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-portabled
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-portabled/module-setup.sh
+%dir %{dracutlibdir}/modules.d/01systemd-pstore
+%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-pstore/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-repart
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-repart/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-rfkill
@@ -338,6 +343,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/80lvmmerge
 %{dracutlibdir}/modules.d/80lvmmerge/README.md
 %attr(755,root,root) %{dracutlibdir}/modules.d/80lvmmerge/*.sh
+%dir %{dracutlibdir}/modules.d/80lvmthinpool-monitor
+%attr(755,root,root) %{dracutlibdir}/modules.d/80lvmthinpool-monitor/*.sh
+%{dracutlibdir}/modules.d/80lvmthinpool-monitor/start-thinpool-monitor.service
 %dir %{dracutlibdir}/modules.d/81cio_ignore
 %attr(755,root,root) %{dracutlibdir}/modules.d/81cio_ignore/*.sh
 %dir %{dracutlibdir}/modules.d/90btrfs
@@ -353,6 +361,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmraid/*.sh
 %dir %{dracutlibdir}/modules.d/90dmsquash-live
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live/*.sh
+%dir %{dracutlibdir}/modules.d/90dmsquash-live-autooverlay
+%attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live-autooverlay/*.sh
 %{dracutlibdir}/modules.d/90dmsquash-live/checkisomd5@.service
 %dir %{dracutlibdir}/modules.d/90dmsquash-live-ntfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/90dmsquash-live-ntfs/*.sh
@@ -371,6 +381,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90multipath/*.sh
 %dir %{dracutlibdir}/modules.d/90nvdimm
 %attr(755,root,root) %{dracutlibdir}/modules.d/90nvdimm/module-setup.sh
+%dir %{dracutlibdir}/modules.d/90overlayfs
+%attr(755,root,root) %{dracutlibdir}/modules.d/90overlayfs/*.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
@@ -415,6 +427,8 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/95nvmf/95-nvmf-initqueue.rules
 %dir %{dracutlibdir}/modules.d/95qeth_rules
 %attr(755,root,root) %{dracutlibdir}/modules.d/95qeth_rules/*.sh
+%dir %{dracutlibdir}/modules.d/95virtiofs
+%attr(755,root,root) %{dracutlibdir}/modules.d/95virtiofs/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp
 %attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
 %dir %{dracutlibdir}/modules.d/95zfcp_rules
@@ -511,6 +525,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{dracutlibdir}/modules.d/01systemd-timesyncd
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-timesyncd/module-setup.sh
 %{dracutlibdir}/modules.d/01systemd-timesyncd/timesyncd-tmpfile-dracut.conf
+%dir %{dracutlibdir}/modules.d/35connman
+%attr(755,root,root) %{dracutlibdir}/modules.d/35connman/*.sh
+%{dracutlibdir}/modules.d/35connman/cm-initrd.service
+%{dracutlibdir}/modules.d/35connman/cm-wait-online-initrd.service
 %dir %{dracutlibdir}/modules.d/35network-legacy
 %{dracutlibdir}/modules.d/35network-legacy/dhclient.conf
 %attr(755,root,root) %{dracutlibdir}/modules.d/35network-legacy/*.sh
