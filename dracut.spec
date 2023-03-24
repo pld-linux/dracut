@@ -22,6 +22,7 @@ BuildRequires:	docbook-style-xsl
 BuildRequires:	kmod-devel >= 23
 BuildRequires:	libxslt-progs
 BuildRequires:	pkgconfig
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 Requires:	bash
 Requires:	coreutils
