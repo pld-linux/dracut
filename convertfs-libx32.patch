@@ -1,0 +1,74 @@
+--- dracut-ng-106/modules.d/30convertfs/convertfs.sh~	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106/modules.d/30convertfs/convertfs.sh	2025-02-19 23:36:17.623325763 +0100
+@@ -34,7 +34,7 @@
+ fi
+ 
+ needconvert() {
+-    for dir in "$ROOT/bin" "$ROOT/sbin" "$ROOT/lib" "$ROOT/lib64"; do
++    for dir in "$ROOT/bin" "$ROOT/sbin" "$ROOT/lib" "$ROOT/lib64" "$ROOT/libx32"; do
+         if [[ -e $dir ]]; then
+             [[ -L $dir ]] || return 0
+         fi
+@@ -96,7 +96,7 @@
+ set -e
+ 
+ # merge / and /usr in new dir in /usr
+-for dir in bin sbin lib lib64; do
++for dir in bin sbin lib lib64 libx32; do
+     rm -rf -- "$ROOT/usr/${dir}.usrmove-new"
+     [[ -L "$ROOT/$dir" ]] && continue
+     [[ -d "$ROOT/$dir" ]] || continue
+@@ -119,7 +119,7 @@
+                        [[ -L "$o" ]] && mv -f "$p" "$o"' ';' || :
+ done
+ # switch over merged dirs in /usr
+-for dir in bin sbin lib lib64; do
++for dir in bin sbin lib lib64 libx32; do
+     [[ -d "$ROOT/usr/${dir}.usrmove-new" ]] || continue
+     echo "Switch to new \`$ROOT/usr/$dir'."
+     rm -fr -- "$ROOT/usr/${dir}.usrmove-old"
+@@ -128,7 +128,7 @@
+ done
+ 
+ # replace dirs in / with links to /usr
+-for dir in bin sbin lib lib64; do
++for dir in bin sbin lib lib64 libx32; do
+     [[ -L "$ROOT/$dir" ]] && continue
+     [[ -d "$ROOT/$dir" ]] || continue
+     echo "Create \`$ROOT/$dir' symlink."
+@@ -139,7 +139,7 @@
+ 
+ echo "Clean up backup files."
+ # everything seems to work; cleanup
+-for dir in bin sbin lib lib64; do
++for dir in bin sbin lib lib64 libx32; do
+     # if we get killed in the middle of "rm -rf", ensure not to leave
+     # an incomplete directory, which is moved back by cleanup()
+     [[ -d "$ROOT/usr/${dir}.usrmove-old" ]] \
+@@ -148,7 +148,7 @@
+         && mv "$ROOT/${dir}.usrmove-old" "$ROOT/${dir}.usrmove-old~"
+ done
+ 
+-for dir in bin sbin lib lib64; do
++for dir in bin sbin lib lib64 libx32; do
+     if [[ -d "$ROOT/usr/${dir}.usrmove-old~" ]]; then
+         rm -rf -- "$ROOT/usr/${dir}.usrmove-old~"
+     fi
+@@ -158,7 +158,7 @@
+     fi
+ done
+ 
+-for dir in lib lib64; do
++for dir in lib lib64 libx32; do
+     [[ -d "$ROOT/$dir" ]] || continue
+     for lib in "$ROOT"/usr/"${dir}"/lib*.so*.usrmove~; do
+         [[ -f $lib ]] || continue
+@@ -178,7 +178,7 @@
+ 
+ if [ -n "$(command -v setfiles)" ] && [ "$SELINUX" != "disabled" ] && [ -f /etc/selinux/"${SELINUXTYPE}"/contexts/files/file_contexts ]; then
+     echo "Fixing SELinux labels"
+-    setfiles -r "$ROOT" -p /etc/selinux/"${SELINUXTYPE}"/contexts/files/file_contexts "$ROOT"/sbin "$ROOT"/bin "$ROOT"/lib "$ROOT"/lib64 "$ROOT"/usr/lib "$ROOT"/usr/lib64 "$ROOT"/etc/ld.so.cache "$ROOT"/var/cache/ldconfig || :
++    setfiles -r "$ROOT" -p /etc/selinux/"${SELINUXTYPE}"/contexts/files/file_contexts "$ROOT"/sbin "$ROOT"/bin "$ROOT"/lib "$ROOT"/lib64 "$ROOT"/libx32 "$ROOT"/usr/lib "$ROOT"/usr/lib64 "$ROOT"/usr/libx32 "$ROOT"/etc/ld.so.cache "$ROOT"/var/cache/ldconfig || :
+ fi
+ 
+ echo "Done."

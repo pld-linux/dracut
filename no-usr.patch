@@ -1,0 +1,201 @@
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-cmdline-ask.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-cmdline-ask.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-cmdline-ask.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-cmdline-ask.service	2025-02-20 00:52:16.763325691 +0100
+@@ -19,7 +19,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-cmdline-ask
++ExecStart=-/bin/dracut-cmdline-ask
+ StandardInput=tty
+ StandardOutput=inherit
+ StandardError=inherit
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-cmdline.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-cmdline.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-cmdline.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-cmdline.service	2025-02-20 00:52:16.763325691 +0100
+@@ -19,7 +19,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-cmdline
++ExecStart=-/bin/dracut-cmdline
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-emergency.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-emergency.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-emergency.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-emergency.service	2025-02-20 00:52:16.763325691 +0100
+@@ -13,7 +13,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ WorkingDirectory=/
+-ExecStart=-/usr/bin/dracut-emergency
++ExecStart=-/bin/dracut-emergency
+ ExecStopPost=-/bin/rm -f -- /.console_lock
+ Type=oneshot
+ StandardInput=tty-force
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-initqueue.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-initqueue.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-initqueue.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-initqueue.service	2025-02-20 00:52:16.763325691 +0100
+@@ -17,7 +17,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-initqueue
++ExecStart=-/bin/dracut-initqueue
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-mount.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-mount.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-mount.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-mount.service	2025-02-20 00:52:16.766659025 +0100
+@@ -15,7 +15,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-mount
++ExecStart=-/bin/dracut-mount
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-mount.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-mount.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-mount.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-mount.service	2025-02-20 00:52:16.766659025 +0100
+@@ -15,7 +15,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-pre-mount
++ExecStart=-/bin/dracut-pre-mount
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-pivot.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-pivot.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-pivot.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-pivot.service	2025-02-20 00:52:16.766659025 +0100
+@@ -23,7 +23,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-pre-pivot
++ExecStart=-/bin/dracut-pre-pivot
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-trigger.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-trigger.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-trigger.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-trigger.service	2025-02-20 00:52:16.766659025 +0100
+@@ -16,7 +16,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-pre-trigger
++ExecStart=-/bin/dracut-pre-trigger
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-udev.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-udev.service
+--- dracut-ng-106/modules.d/98dracut-systemd/dracut-pre-udev.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/dracut-pre-udev.service	2025-02-20 00:52:16.766659025 +0100
+@@ -20,7 +20,7 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ Type=oneshot
+-ExecStart=-/usr/bin/dracut-pre-udev
++ExecStart=-/bin/dracut-pre-udev
+ StandardInput=null
+ StandardError=journal+console
+ KillMode=process
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/emergency.service dracut-ng-106-rootdir/modules.d/98dracut-systemd/emergency.service
+--- dracut-ng-106/modules.d/98dracut-systemd/emergency.service	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/emergency.service	2025-02-20 00:52:16.766659025 +0100
+@@ -14,8 +14,8 @@
+ Environment=DRACUT_SYSTEMD=1
+ Environment=NEWROOT=/sysroot
+ WorkingDirectory=/
+-ExecStart=/usr/bin/dracut-emergency
+-ExecStopPost=-/usr/bin/systemctl --fail --no-block default
++ExecStart=/bin/dracut-emergency
++ExecStopPost=-/bin/systemctl --fail --no-block default
+ Type=idle
+ StandardInput=tty-force
+ StandardOutput=inherit
+diff -ur dracut-ng-106/modules.d/98dracut-systemd/module-setup.sh dracut-ng-106-rootdir/modules.d/98dracut-systemd/module-setup.sh
+--- dracut-ng-106/modules.d/98dracut-systemd/module-setup.sh	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/98dracut-systemd/module-setup.sh	2025-02-20 00:52:16.766659025 +0100
+@@ -31,21 +31,21 @@
+ 
+ # called by dracut
+ install() {
+-    inst_script "$moddir/dracut-emergency.sh" /usr/bin/dracut-emergency
++    inst_script "$moddir/dracut-emergency.sh" /bin/dracut-emergency
+     inst_simple "$moddir/emergency.service" "${systemdsystemunitdir}"/emergency.service
+     inst_simple "$moddir/dracut-emergency.service" "${systemdsystemunitdir}"/dracut-emergency.service
+     inst_simple "$moddir/emergency.service" "${systemdsystemunitdir}"/rescue.service
+ 
+     ln_r "${systemdsystemunitdir}/initrd.target" "${systemdsystemunitdir}/default.target"
+ 
+-    inst_script "$moddir/dracut-cmdline.sh" /usr/bin/dracut-cmdline
+-    inst_script "$moddir/dracut-cmdline-ask.sh" /usr/bin/dracut-cmdline-ask
+-    inst_script "$moddir/dracut-pre-udev.sh" /usr/bin/dracut-pre-udev
+-    inst_script "$moddir/dracut-pre-trigger.sh" /usr/bin/dracut-pre-trigger
+-    inst_script "$moddir/dracut-initqueue.sh" /usr/bin/dracut-initqueue
+-    inst_script "$moddir/dracut-pre-mount.sh" /usr/bin/dracut-pre-mount
+-    inst_script "$moddir/dracut-mount.sh" /usr/bin/dracut-mount
+-    inst_script "$moddir/dracut-pre-pivot.sh" /usr/bin/dracut-pre-pivot
++    inst_script "$moddir/dracut-cmdline.sh" /bin/dracut-cmdline
++    inst_script "$moddir/dracut-cmdline-ask.sh" /bin/dracut-cmdline-ask
++    inst_script "$moddir/dracut-pre-udev.sh" /bin/dracut-pre-udev
++    inst_script "$moddir/dracut-pre-trigger.sh" /bin/dracut-pre-trigger
++    inst_script "$moddir/dracut-initqueue.sh" /bin/dracut-initqueue
++    inst_script "$moddir/dracut-pre-mount.sh" /bin/dracut-pre-mount
++    inst_script "$moddir/dracut-mount.sh" /bin/dracut-mount
++    inst_script "$moddir/dracut-pre-pivot.sh" /bin/dracut-pre-pivot
+ 
+     inst_script "$moddir/rootfs-generator.sh" "$systemdutildir"/system-generators/dracut-rootfs-generator
+ 
+diff -ur dracut-ng-106/modules.d/99base/module-setup.sh dracut-ng-106-rootdir/modules.d/99base/module-setup.sh
+--- dracut-ng-106/modules.d/99base/module-setup.sh	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/99base/module-setup.sh	2025-02-20 00:52:39.066659021 +0100
+@@ -36,10 +36,10 @@
+         kmod \
+         less
+ 
+-    inst_binary "${dracutbasedir}/dracut-util" "/usr/bin/dracut-util"
++    inst_binary "${dracutbasedir}/dracut-util" "/bin/dracut-util"
+ 
+-    ln -s dracut-util "${initdir}/usr/bin/dracut-getarg"
+-    ln -s dracut-util "${initdir}/usr/bin/dracut-getargs"
++    ln -s dracut-util "${initdir}/bin/dracut-getarg"
++    ln -s dracut-util "${initdir}/bin/dracut-getargs"
+ 
+     # fallback when shell-interpreter is not included
+     [ ! -e "${initdir}/bin/sh" ] && inst_simple "${initdir}/bin/sh" "/bin/sh"
+diff -ur dracut-ng-106/modules.d/99img-lib/img-lib.sh dracut-ng-106-rootdir/modules.d/99img-lib/img-lib.sh
+--- dracut-ng-106/modules.d/99img-lib/img-lib.sh	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/modules.d/99img-lib/img-lib.sh	2025-02-20 00:53:00.743325684 +0100
+@@ -129,7 +129,7 @@
+          echo 'Warning!!!'\n\
+          echo 'The memory size of your system is too small for this live image.'\n\
+          echo 'Expect killed processes due to out of memory conditions.'\n\
+-         echo \n/" /usr/bin/dracut-emergency
++         echo \n/" /bin/dracut-emergency
+ 
+         emergency_shell
+     elif [ $((runavail - imgsize)) -lt "$minmem" ]; then
+diff -ur dracut-ng-106/test/TEST-60-NFS/test.sh dracut-ng-106-rootdir/test/TEST-60-NFS/test.sh
+--- dracut-ng-106/test/TEST-60-NFS/test.sh	2025-02-01 02:20:41.000000000 +0100
++++ dracut-ng-106-rootdir/test/TEST-60-NFS/test.sh	2025-02-20 00:53:12.566659018 +0100
+@@ -315,9 +315,9 @@
+         inst_simple "${PKGLIBDIR}/modules.d/45url-lib/url-lib.sh" "/lib/url-lib.sh"
+         inst_simple "${PKGLIBDIR}/modules.d/45net-lib/net-lib.sh" "/lib/net-lib.sh"
+         inst_simple "${PKGLIBDIR}/modules.d/95nfs/nfs-lib.sh" "/lib/nfs-lib.sh"
+-        inst_binary "${PKGLIBDIR}/dracut-util" "/usr/bin/dracut-util"
+-        ln -s dracut-util "${initdir}/usr/bin/dracut-getarg"
+-        ln -s dracut-util "${initdir}/usr/bin/dracut-getargs"
++        inst_binary "${PKGLIBDIR}/dracut-util" "/bin/dracut-util"
++        ln -s dracut-util "${initdir}/bin/dracut-getarg"
++        ln -s dracut-util "${initdir}/bin/dracut-getargs"
+ 
+         inst ./client-init.sh /sbin/init
+         inst_simple /etc/os-release

@@ -1,18 +1,19 @@
 Summary:	Initramfs generator using udev
 Summary(pl.UTF-8):	Generator initramfs wykorzystujący udev
 Name:		dracut
-Version:	103
-Release:	1
+Version:	106
+Release:	0.1
 License:	GPL v2+
 Group:		Base
 Source0:	https://github.com/dracut-ng/dracut-ng/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	0fad536babb3cb764eaa8f3fc7eadba4
+# Source0-md5:	f84b20c030178b4a28d2a194701f50cf
 Source1:	pld.conf
 Patch0:		plymouth-libdir.patch
 Patch2:		arch-libdir.patch
-Patch3:		systemd-paths.patch
+Patch3:		no-usr.patch
 Patch4:		cryptsetup.patch
 Patch5:		bash.patch
+Patch6:		convertfs-libx32.patch
 URL:		https://github.com/dracut-ng/dracut-ng/wiki
 BuildRequires:	asciidoc
 BuildRequires:	dash
@@ -179,13 +180,21 @@ Bashowe dopełnianie składni dla polecenia dracut.
 
 %prep
 %setup -q -n dracut-ng-%{version}
-%patch0 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%patch -P 0 -p1
+%patch -P 2 -p1
+%patch -P 3 -p1
+%patch -P 4 -p1
+%patch -P 5 -p1
+%patch -P 6 -p1
 
-%{__sed} -i -e 's,@libexecdir@,%{_libexecdir},g' modules.d/50plymouth/module-setup.sh
+
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+bash(\s|$),#!/bin/bash\1,' \
+	test/*/*.sh \
+	test/run-qemu \
+	test/test-functions
+
+
+%{__sed} -i -e 's,@libexecdir@,%{_libexecdir},g' modules.d/45plymouth/module-setup.sh
 %{__sed} -i -e 's,@lib@,%{_lib},g' modules.d/95resume/module-setup.sh
 find modules.d -name '*.orig' | xargs -r %{__rm}
 
@@ -208,7 +217,7 @@ install -d $RPM_BUILD_ROOT{/boot/dracut,/sbin} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/01-dist.conf
-install -p dracut.conf.d/50-fips.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/40-fips.conf
+install -p dracut.conf.d/fips/50-fips.conf $RPM_BUILD_ROOT%{_sysconfdir}/dracut.conf.d/50-fips.conf
 
 echo "DRACUT_VERSION=%{version}-%{release}" >$RPM_BUILD_ROOT%{dracutlibdir}/dracut-version.sh
 
@@ -228,7 +237,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS.md README.md docs/HACKING.md dracut.html docs/dracut.png docs/dracut.svg
+%doc AUTHORS NEWS.md README.md
 %dir %{_sysconfdir}/dracut.conf.d
 %config(noreplace) %{_sysconfdir}/dracut.conf
 %config(noreplace) %{_sysconfdir}/dracut.conf.d/01-dist.conf
@@ -250,8 +259,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/00bash/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00dash
 %attr(755,root,root) %{dracutlibdir}/modules.d/00dash/*.sh
-%dir %{dracutlibdir}/modules.d/00mksh
-%attr(755,root,root) %{dracutlibdir}/modules.d/00mksh/module-setup.sh
+#%dir %{dracutlibdir}/modules.d/00mksh
+#%attr(755,root,root) %{dracutlibdir}/modules.d/00mksh/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00systemd
 %attr(755,root,root) %{dracutlibdir}/modules.d/00systemd/module-setup.sh
 %dir %{dracutlibdir}/modules.d/00warpclock
@@ -297,9 +306,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysctl/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-sysext
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysext/module-setup.sh
-%dir %{dracutlibdir}/modules.d/01systemd-sysusers
-%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysusers/module-setup.sh
-%{dracutlibdir}/modules.d/01systemd-sysusers/sysusers-dracut.conf
+#%dir %{dracutlibdir}/modules.d/01systemd-sysusers
+#%attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-sysusers/module-setup.sh
+#%{dracutlibdir}/modules.d/01systemd-sysusers/sysusers-dracut.conf
 %dir %{dracutlibdir}/modules.d/01systemd-timedated
 %attr(755,root,root) %{dracutlibdir}/modules.d/01systemd-timedated/module-setup.sh
 %dir %{dracutlibdir}/modules.d/01systemd-tmpfiles
@@ -316,15 +325,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog/*.sh
 %dir %{dracutlibdir}/modules.d/04watchdog-modules
 %attr(755,root,root) %{dracutlibdir}/modules.d/04watchdog-modules/module-setup.sh
-%dir %{dracutlibdir}/modules.d/05busybox
-%attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
+#%dir %{dracutlibdir}/modules.d/05busybox
+#%attr(755,root,root) %{dracutlibdir}/modules.d/05busybox/*.sh
 %dir %{dracutlibdir}/modules.d/06dbus-broker
 %attr(755,root,root) %{dracutlibdir}/modules.d/06dbus-broker/module-setup.sh
 %dir %{dracutlibdir}/modules.d/06dbus-daemon
 %attr(755,root,root) %{dracutlibdir}/modules.d/06dbus-daemon/module-setup.sh
-%dir %{dracutlibdir}/modules.d/06rngd
-%attr(755,root,root) %{dracutlibdir}/modules.d/06rngd/module-setup.sh
-%{dracutlibdir}/modules.d/06rngd/rngd.service
+#%dir %{dracutlibdir}/modules.d/06rngd
+#%attr(755,root,root) %{dracutlibdir}/modules.d/06rngd/module-setup.sh
+#%{dracutlibdir}/modules.d/06rngd/rngd.service
 %dir %{dracutlibdir}/modules.d/09dbus
 %attr(755,root,root) %{dracutlibdir}/modules.d/09dbus/module-setup.sh
 %dir %{dracutlibdir}/modules.d/10i18n
@@ -333,10 +342,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/10i18n/*.sh
 %dir %{dracutlibdir}/modules.d/30convertfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/30convertfs/*.sh
-%dir %{dracutlibdir}/modules.d/50drm
-%attr(755,root,root) %{dracutlibdir}/modules.d/50drm/module-setup.sh
-%dir %{dracutlibdir}/modules.d/50plymouth
-%attr(755,root,root) %{dracutlibdir}/modules.d/50plymouth/*.sh
+#%dir %{dracutlibdir}/modules.d/50drm
+#%attr(755,root,root) %{dracutlibdir}/modules.d/50drm/module-setup.sh
+%dir %{dracutlibdir}/modules.d/45plymouth
+%attr(755,root,root) %{dracutlibdir}/modules.d/45plymouth/*.sh
 %dir %{dracutlibdir}/modules.d/62bluetooth
 %attr(755,root,root) %{dracutlibdir}/modules.d/62bluetooth/module-setup.sh
 %dir %{dracutlibdir}/modules.d/80cms
@@ -391,8 +400,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/90pcmcia/module-setup.sh
 %dir %{dracutlibdir}/modules.d/90qemu
 %attr(755,root,root) %{dracutlibdir}/modules.d/90qemu/*.sh
-%dir %{dracutlibdir}/modules.d/90systemd-cryptsetup
-%attr(755,root,root) %{dracutlibdir}/modules.d/90systemd-cryptsetup/module-setup.sh
+#%dir %{dracutlibdir}/modules.d/90systemd-cryptsetup
+#%attr(755,root,root) %{dracutlibdir}/modules.d/90systemd-cryptsetup/module-setup.sh
 %dir %{dracutlibdir}/modules.d/91crypt-gpg
 %{dracutlibdir}/modules.d/91crypt-gpg/README
 %attr(755,root,root) %{dracutlibdir}/modules.d/91crypt-gpg/*.sh
@@ -439,9 +448,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{dracutlibdir}/modules.d/95zfcp/*.sh
 %dir %{dracutlibdir}/modules.d/95terminfo
 %attr(755,root,root) %{dracutlibdir}/modules.d/95terminfo/*.sh
-%dir %{dracutlibdir}/modules.d/95udev-rules
-%{dracutlibdir}/modules.d/95udev-rules/*.rules
-%attr(755,root,root) %{dracutlibdir}/modules.d/95udev-rules/*.sh
+#%dir %{dracutlibdir}/modules.d/95udev-rules
+#%{dracutlibdir}/modules.d/95udev-rules/*.rules
+#%attr(755,root,root) %{dracutlibdir}/modules.d/95udev-rules/*.sh
 %dir %{dracutlibdir}/modules.d/95virtfs
 %attr(755,root,root) %{dracutlibdir}/modules.d/95virtfs/*.sh
 %dir %{dracutlibdir}/modules.d/96securityfs
@@ -545,8 +554,8 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/35network-manager/nm-wait-online-initrd.service
 %dir %{dracutlibdir}/modules.d/40network
 %attr(755,root,root) %{dracutlibdir}/modules.d/40network/*.sh
-%dir %{dracutlibdir}/modules.d/45ifcfg
-%attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
+#%dir %{dracutlibdir}/modules.d/45ifcfg
+#%attr(755,root,root) %{dracutlibdir}/modules.d/45ifcfg/*.sh
 %dir %{dracutlibdir}/modules.d/45net-lib
 %attr(755,root,root) %{dracutlibdir}/modules.d/45net-lib/*.sh
 %dir %{dracutlibdir}/modules.d/45url-lib
@@ -580,7 +589,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %dir %{dracutlibdir}/modules.d/01fips
 %attr(755,root,root) %{dracutlibdir}/modules.d/01fips/*.sh
-%config(noreplace) %{_sysconfdir}/dracut.conf.d/40-fips.conf
+%config(noreplace) %{_sysconfdir}/dracut.conf.d/50-fips.conf
 
 %files caps
 %defattr(644,root,root,755)

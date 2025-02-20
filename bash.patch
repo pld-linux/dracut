@@ -1,19 +1,18 @@
---- dracut-055/modules.d/00bash/module-setup.sh~	2021-05-27 14:34:19.000000000 +0200
-+++ dracut-055/modules.d/00bash/module-setup.sh	2021-10-30 23:03:00.931687353 +0200
-@@ -9,7 +9,7 @@
+--- dracut-ng-106/modules.d/00bash/module-setup.sh.orig	2025-02-20 00:55:23.249992313 +0100
++++ dracut-ng-106/modules.d/00bash/module-setup.sh	2025-02-20 00:56:14.403325641 +0100
+@@ -8,7 +8,7 @@
      require_binaries bash || return 1
  
      # Return 255 to only include the module, if another module requires it.
 -    return 255
 +    return 0
- 
  }
  
-@@ -27,6 +27,6 @@
+ # Install the required file(s) and directories for the module in the initramfs.
+@@ -16,5 +16,5 @@
      inst /bin/bash
  
      # Prefer bash as default shell if no other shell is preferred.
 -    [[ -L $initdir/bin/sh ]] || ln -sf bash "${initdir}/bin/sh"
 +    ln -sf bash "${initdir}/bin/sh"
- 
  }
